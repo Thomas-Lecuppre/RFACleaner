@@ -1,0 +1,122 @@
+﻿<Window x:Class="RFACleaner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RFACleaner"
+        mc:Ignorable="d" 
+        Height="450" 
+        Width="400"
+        Title="{Binding WindowTitle}" 
+        FontSize="20"
+        Background="#FF2D2D30"
+        Foreground="GhostWhite">
+
+    <Window.Resources>
+        
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="35"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="FolderPath"
+                 Margin="2"
+                 BorderBrush="GhostWhite"
+                 Background="Transparent"
+                 Foreground="GhostWhite"
+                 Text="{Binding FolderPath}"/>
+
+        <Button x:Name="FolderBrowserButton"
+                Grid.Column="1"
+                Margin="2"
+                BorderBrush="GhostWhite"
+                Background="Transparent"
+                Foreground="GhostWhite"
+                Content="..."
+                FontWeight="Bold"
+                Command="{Binding BrowseFolder}"/>
+
+        <TextBox x:Name="SearchBox"
+                 Grid.Row="1"
+                 Grid.ColumnSpan="2"
+                 Margin="2"
+                 BorderBrush="GhostWhite"
+                 Background="Transparent"
+                 Foreground="GhostWhite"
+                 Text="{Binding SearchText}"/>
+
+        <ListBox x:Name="FileList"
+                 Grid.Row="2"
+                 Grid.ColumnSpan="2"
+                 Margin="2"
+                 BorderBrush="GhostWhite"
+                 Background="Transparent"
+                 Foreground="GhostWhite"
+                 ItemsSource="{Binding FilesList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <!--Grille de création des objets de la liste-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="27"/>
+                            <ColumnDefinition Width="68"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Button Height="25"
+                                Width="25"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding FileSelection}"/>
+
+                        <!--Image 64x64px-->
+                        <Image Grid.RowSpan="2"
+                               Margin="2"
+                               Height="64"
+                               Width="64"
+                               Source="{Binding FileIcone}"/>
+                        
+                        <!--Liste des infos-->
+                        <StackPanel Orientation="Vertical"
+                                    Grid.Column="1"
+                                    Margin="2">
+                            
+                            <TextBlock Text="{Binding FileName}"
+                                       Grid.Row="0"
+                                       FontWeight="Bold"/>
+                            
+                            <TextBlock Text="{Binding FileVersion}"
+                                       Grid.Row="1"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+        <Button x:Name="MainActionButton"
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Margin="2"
+                BorderBrush="GhostWhite"
+                Background="Transparent"
+                Foreground="GhostWhite"
+                Content="{Binding ActionButtonText}"
+                Command="{Binding MainAction}"/>
+
+    </Grid>
+</Window>
