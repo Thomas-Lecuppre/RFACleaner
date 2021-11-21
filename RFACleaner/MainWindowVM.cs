@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RFACleaner
 {
-    public class MainWindowMV : INotifyPropertyChanged
+    public class MainWindowVM : INotifyPropertyChanged
     {
-        MainWindowM mwm;
+        public MainWindowM mwm;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -23,13 +25,16 @@ namespace RFACleaner
             }
         }
 
-        public MainWindowMV()
+        public MainWindowVM()
         {
-            mwm = new MainWindowM();
+            mwm = new MainWindowM(this);
             filesList = new ObservableCollection<SavedRevitFile>();
 
             browseFolder = new CommandeRelais(Execute_BrowseFolder, CanExecute_BrowseFolder);
             mainAction = new CommandeRelais(Execute_MainAction, CanExecute_MainAction);
+            selectAll = new CommandeRelais(Execute_SelectAll, CanExecute_SelectAll);
+            unselectAll = new CommandeRelais(Execute_UnSelectAll, CanExecute_UnSelectAll);
+            invertSelection = new CommandeRelais(Execute_InvertSelection, CanExecute_InvertSelection);
             WindowTitle = mwm.Version();
         }
 
@@ -59,8 +64,16 @@ namespace RFACleaner
             }
             set 
             { 
-                folderPath = value;
-                OnPropertyChange("FolderPath");
+                if(value != folderPath)
+                {
+                    folderPath = value;
+                    OnPropertyChange("FolderPath");
+
+                    if (Directory.Exists(folderPath))
+                    {
+                        mwm.GetRevitFiles(folderPath);
+                    }
+                }
             }
         }
 
@@ -73,9 +86,13 @@ namespace RFACleaner
                 return searchText; 
             }
             set 
-            { 
-                searchText = value;
-                OnPropertyChange("SearchText");
+            {
+                if(value != searchText)
+                {
+                    searchText = value;
+                    mwm.Filter(searchText);
+                    OnPropertyChange("SearchText");
+                }
             }
         }
 
@@ -93,6 +110,7 @@ namespace RFACleaner
                 OnPropertyChange("FilesList");
             }
         }
+
 
         private string actionButtonText;
 
@@ -127,7 +145,11 @@ namespace RFACleaner
 
         public void Execute_BrowseFolder(object parameter)
         {
-            FolderPath = mwm.Browse();
+            string result = mwm.Browse();
+            if(FolderPath != "" && result != "")
+            {
+                FolderPath = result;
+            }
         }
 
         public bool CanExecute_BrowseFolder(object parameter)
@@ -159,6 +181,90 @@ namespace RFACleaner
         }
 
         public bool CanExecute_MainAction(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
+        #region Command SelectAll
+
+        private ICommand selectAll;
+
+        public ICommand SelectAll
+        {
+            get
+            {
+                return selectAll;
+            }
+            set
+            {
+                selectAll = value;
+            }
+        }
+
+        public void Execute_SelectAll(object parameter)
+        {
+            mwm.SelectAllFiles();
+        }
+
+        public bool CanExecute_SelectAll(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
+        #region Command UnSelectAll
+
+        private ICommand unselectAll;
+
+        public ICommand UnSelectAll
+        {
+            get
+            {
+                return unselectAll;
+            }
+            set
+            {
+                unselectAll = value;
+            }
+        }
+
+        public void Execute_UnSelectAll(object parameter)
+        {
+            mwm.UnSelectAllFiles();
+        }
+
+        public bool CanExecute_UnSelectAll(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
+        #region Command InvertSelection
+
+        private ICommand invertSelection;
+
+        public ICommand InvertSelection
+        {
+            get
+            {
+                return invertSelection;
+            }
+            set
+            {
+                invertSelection = value;
+            }
+        }
+
+        public void Execute_InvertSelection(object parameter)
+        {
+            mwm.InvertFilesSelection();
+        }
+
+        public bool CanExecute_InvertSelection(object parameter)
         {
             return true;
         }

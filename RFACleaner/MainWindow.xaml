@@ -13,13 +13,82 @@
         Foreground="GhostWhite">
 
     <Window.Resources>
-        
+
+        <Style TargetType="Button" x:Key="Selector">
+            <Setter Property="Background" 
+                    Value="Transparent"/>
+            <Setter Property="TextBlock.TextAlignment" 
+                    Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="GhostWhite"
+                                BorderThickness="2">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Tag" Value="Selected">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="Lime"
+                                BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="Tag" Value="NotSelected">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="IndianRed"
+                                BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
-    
+
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="35"/>
             <RowDefinition Height="35"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
@@ -52,10 +121,36 @@
                  BorderBrush="GhostWhite"
                  Background="Transparent"
                  Foreground="GhostWhite"
-                 Text="{Binding SearchText}"/>
+                 Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Grid.Row="2"
+                    Grid.ColumnSpan ="2"
+                    Margin="2"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+
+            <Button x:Name="SelectAll"
+                    Width="35"
+                    Content="A"
+                    Margin="2,0"
+                    Command="{Binding SelectAll}"/>
+
+            <Button x:Name="UnselectAll"
+                    Width="35"
+                    Content="N"
+                    Margin="2,0"
+                    Command="{Binding UnSelectAll}"/>
+
+            <Button x:Name="InvertSelection"
+                    Width="35"
+                    Content="I"
+                    Margin="2,0"
+                    Command="{Binding InvertSelection}"/>
+
+        </StackPanel>
 
         <ListBox x:Name="FileList"
-                 Grid.Row="2"
+                 Grid.Row="3"
                  Grid.ColumnSpan="2"
                  Margin="2"
                  BorderBrush="GhostWhite"
@@ -65,33 +160,37 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <!--Grille de création des objets de la liste-->
-                    <Grid>
+                    <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="27"/>
                             <ColumnDefinition Width="68"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Button Height="25"
-                                Width="25"
+                        <Button Grid.Column="0"
+                                Grid.RowSpan="2"
+                                Margin="2"
+                                Height="64"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Content="{Binding FileSelection}"/>
+                                Tag="{Binding FileTag}"
+                                Uid="{Binding FileUid}"
+                                Style="{StaticResource Selector}"
+                                Click="Button_Click">
 
-                        <!--Image 64x64px-->
-                        <Image Grid.RowSpan="2"
-                               Margin="2"
-                               Height="64"
-                               Width="64"
-                               Source="{Binding FileIcone}"/>
+                            <!--Image 64x64px-->
+                            <Image Stretch="Fill"
+                                   Source="{Binding Icon}"/>
+
+                        </Button>
                         
                         <!--Liste des infos-->
                         <StackPanel Orientation="Vertical"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Margin="2">
                             
                             <TextBlock Text="{Binding FileName}"
@@ -100,6 +199,9 @@
                             
                             <TextBlock Text="{Binding FileVersion}"
                                        Grid.Row="1"/>
+
+                            <TextBlock Text="{Binding Weight}"
+                                       Grid.Row="2"/>
                         </StackPanel>
                         
                     </Grid>
@@ -109,7 +211,7 @@
         </ListBox>
 
         <Button x:Name="MainActionButton"
-                Grid.Row="3"
+                Grid.Row="4"
                 Grid.ColumnSpan="2"
                 Margin="2"
                 BorderBrush="GhostWhite"

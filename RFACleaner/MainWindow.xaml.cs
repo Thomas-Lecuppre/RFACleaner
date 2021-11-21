@@ -22,11 +22,47 @@ namespace RFACleaner
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindowVM mwVM;
+
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowMV();
+            mwVM = new MainWindowVM();
+            this.DataContext = mwVM;
         }
 
+        private void ShutDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+        }
+
+        private void ManimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Minimized;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            mwVM.mwm.Select((sender as Button).Uid);
+        }
     }
 }
