@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace RFACleaner
 {
@@ -28,5 +29,39 @@ namespace RFACleaner
             this.DataContext = new MainWindowMV();
         }
 
+        private void FolderPath_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void NameApp_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void FolderPath_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void PackIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void PackIcon_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }

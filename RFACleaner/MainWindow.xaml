@@ -4,119 +4,406 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RFACleaner"
-        mc:Ignorable="d" 
-        Height="450" 
-        Width="400"
-        Title="{Binding WindowTitle}" 
-        FontSize="20"
-        Background="#FF2D2D30"
-        Foreground="GhostWhite">
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
+        fw:AcrylicWindow.Enabled="True"
+        fw:AcrylicWindow.AcrylicWindowStyle="None"
+        WindowStyle="None"
+        Height="700"
+        MinHeight="700"
+        Width="500"
+        MinWidth="500"
+        Background="Transparent" 
+        AllowsTransparency="True"
+        FontFamily='Comfortaa'>
 
     <Window.Resources>
-        
+        <LinearGradientBrush x:Key="InBoxBg"
+                             MappingMode="Absolute" 
+                             StartPoint="402,0" 
+                             EndPoint="-136.411,318.147">
+            <GradientStop Color="#1EFFFFFF" />
+            <GradientStop Color="#1EFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="AppBg"
+                            StartPoint="0,0"
+                            EndPoint="1,1">
+            <GradientStop Color="#66FFFFFF" Offset="0"/>
+            <GradientStop Color="#1AFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="AppBorderBrush"                             
+                            StartPoint="0,1.017" EndPoint="1.024,0">
+            <GradientStop Color="White" Offset="0"/>
+            <GradientStop Color="#0094B2FF" Offset="0.343446"/>
+            <GradientStop Color="#00496BC1" Offset="0.629582"/>
+            <GradientStop Color="#577FE5" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="AppBorderTopBar"
+                             MappingMode="Absolute" StartPoint="3.85219e-06,581.5" EndPoint="432,4.41065e-05">
+            <GradientStop Color="#33FFFFFF"/>
+            <GradientStop Color="#0094B2FF" Offset="0.343446"/>
+            <GradientStop Color="#00496BC1" Offset="0.629582"/>
+            <GradientStop Color="#577FE5" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="InBoxBorder" 
+                             MappingMode="Absolute"  StartPoint="7.06215,2.13058e-05"  EndPoint="521.755,391.603">
+            <GradientStop Color="#87FFFFFF"/>
+            <GradientStop Color="#00FFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ButtonBg" 
+                             MappingMode="Absolute" StartPoint="43,25" EndPoint="21.3826,-12.5041">
+            <GradientStop Color="#577FE5"/>
+            <GradientStop Color="#8C577FE5" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ButtonBorder" 
+                             MappingMode="Absolute" StartPoint="1.76713,-1.01419e-06" EndPoint="21.4403,37.2377">
+            <GradientStop Color="#FFFFFF"/>
+            <GradientStop Color="#00FFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Border x:Key="AppsBorder"
+                Background="Transparent"
+                BorderBrush="{StaticResource AppBorderBrush}"
+                BorderThickness="2" 
+                CornerRadius="16">
+        </Border>
+
+        <Style TargetType="{x:Type Button}" x:Key="CTA">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{StaticResource ButtonBg}"
+                                BorderBrush="{StaticResource ButtonBorder}"
+                                BorderThickness="1"
+                                CornerRadius="8" OpacityMask="#FF9C5B5B">
+
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type ListBox}" x:Key="ParameterListItem">
+            <Setter Property="ItemsControl.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Background="Transparent"
+                                BorderBrush="{StaticResource InBoxBorder}"
+                                BorderThickness="1" 
+                                CornerRadius="8">
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" x:Key="TopBarTextBox" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Background="Transparent"
+                                BorderBrush="{StaticResource AppBorderTopBar}"                                
+                                BorderThickness="2" 
+                                CornerRadius="16,16,0,0"
+                                Margin="-2,-2,-2,-2">
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}" x:Key="FolderPath" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border Background="Transparent"
+                                BorderBrush="#B2FFFFFF"
+                                CornerRadius="8"
+                                BorderThickness="1"
+                                Padding="1,1,1,5">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="35"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="35"/>
-        </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="FolderPath"
-                 Margin="2"
-                 BorderBrush="GhostWhite"
-                 Background="Transparent"
-                 Foreground="GhostWhite"
-                 Text="{Binding FolderPath}"/>
+    <Border CornerRadius="16" BorderBrush="{StaticResource AppBorderBrush}" BorderThickness="2">
+        <Grid fw:PointerTracker.Enabled="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
 
-        <Button x:Name="FolderBrowserButton"
-                Grid.Column="1"
-                Margin="2"
-                BorderBrush="GhostWhite"
-                Background="Transparent"
-                Foreground="GhostWhite"
-                Content="..."
-                FontWeight="Bold"
-                Command="{Binding BrowseFolder}"/>
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
 
-        <TextBox x:Name="SearchBox"
-                 Grid.Row="1"
-                 Grid.ColumnSpan="2"
-                 Margin="2"
-                 BorderBrush="GhostWhite"
-                 Background="Transparent"
-                 Foreground="GhostWhite"
-                 Text="{Binding SearchText}"/>
+            <Label x:Name="NameApp"   
+                     Grid.Row="0"
+                     Grid.ColumnSpan="3"
+                     Content="{Binding WindowTitle}"
+                     VerticalContentAlignment="Center" HorizontalContentAlignment="Center" 
+                     Height="38"
+                     Foreground="White" Width="Auto" Margin="-2"
+                     Panel.ZIndex="1" BorderBrush="{x:Null}" />
 
-        <ListBox x:Name="FileList"
-                 Grid.Row="2"
-                 Grid.ColumnSpan="2"
-                 Margin="2"
-                 BorderBrush="GhostWhite"
-                 Background="Transparent"
-                 Foreground="GhostWhite"
-                 ItemsSource="{Binding FilesList}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <!--Grille de création des objets de la liste-->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="27"/>
-                            <ColumnDefinition Width="68"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.ColumnSpan="3"
+                       CornerRadius="16,16,0,0" Margin="-2"
+                       Background="Transparent"
+                       BorderBrush="{StaticResource AppBorderTopBar}"
+                       BorderThickness="2"/>
 
-                        <Button Height="25"
-                                Width="25"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="{Binding FileSelection}"/>
+            <Rectangle 
+                    Grid.Row="0"
+                    Grid.ColumnSpan="1" 
+                    RadiusX="16">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="25" RenderingBias="Quality"/>
+                </Rectangle.Effect>
+                <Rectangle.Fill>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="-1.54373e-05,29.1057" EndPoint="0.877372,-1.69545">
+                        <GradientStop Color="#66FFFFFF" Offset="0.00667939"/>
+                        <GradientStop Color="#1AFFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
 
-                        <!--Image 64x64px-->
-                        <Image Grid.RowSpan="2"
-                               Margin="2"
-                               Height="64"
-                               Width="64"
-                               Source="{Binding FileIcone}"/>
-                        
-                        <!--Liste des infos-->
-                        <StackPanel Orientation="Vertical"
-                                    Grid.Column="1"
-                                    Margin="2">
-                            
-                            <TextBlock Text="{Binding FileName}"
-                                       Grid.Row="0"
-                                       FontWeight="Bold"/>
-                            
-                            <TextBlock Text="{Binding FileVersion}"
-                                       Grid.Row="1"/>
-                        </StackPanel>
-                        
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+            <!-- Grid Path 1x1 -->
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="75"/>
+                </Grid.ColumnDefinitions>
 
-        </ListBox>
+                <TextBox x:Name="FolderPath"
+                         Style="{StaticResource FolderPath}"
+                         Grid.Row="1"
+                         Grid.ColumnSpan="1"
+                         VerticalContentAlignment="Center"
+                         Height="25"
+                         Margin="15,15,0,15"
+                         Text="{Binding FolderPath}"
+                         Foreground="White" AutoWordSelection="True" MaxLines="1"
+                         TextAlignment="Justify"/>
 
-        <Button x:Name="MainActionButton"
-                Grid.Row="3"
-                Grid.ColumnSpan="2"
-                Margin="2"
-                BorderBrush="GhostWhite"
-                Background="Transparent"
-                Foreground="GhostWhite"
-                Content="{Binding ActionButtonText}"
-                Command="{Binding MainAction}"/>
+                <!--<Button x:Name="FolderPathButton"
+                        Grid.Row="1" 
+                        Grid.Column="2"
+                        Style="{StaticResource CTA}"
+                        Height="25"
+                        Width="45"             
+                        HorizontalAlignment="center"
+                        VerticalAlignment="Center">
+                    
+                    <materialDesign:PackIcon Kind="DotsHorizontal"
+                                             Grid.Row="1" 
+                                             Grid.Column="2"
+                                             Foreground="White"
+                                             Height="25"
+                                             Width="45"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"/>
+                </Button>-->
 
-    </Grid>
+                <Button x:Name="FolderBrowserButton" 
+                        Grid.Row="1" 
+                        Grid.Column="2"
+                        Style="{StaticResource CTA}"
+                        Padding="0"
+                        Height="25"
+                        Width="45"
+                        Command="{Binding BrowseFolder}">
+
+                    <materialDesign:PackIcon Kind="DotsHorizontal"
+                                             Foreground="White"
+                                             Height="25" Width="45"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
+                </Button>
+
+            </Grid>
+
+            <!-- Grid Boutons Selects 2x1 -->
+            <Grid Grid.Row="2" Grid.Column="1" Height="35" Margin="15,0,15,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="SelectAllButton"
+                        Style="{StaticResource CTA}"
+                        Grid.Row="2" 
+                        Grid.Column="0"
+                        Height="30"
+                        Width="30"
+                        Command="{Binding SelectAll}">
+
+                    <materialDesign:PackIcon Kind="FileCheckOutline"
+                                             Height="20"
+                                             Width="30" 
+                                             Margin="-1,-1,0,0"
+                                             Foreground="White" />
+
+                </Button>
+
+
+
+                <Button x:Name="SelectNoneButton"
+                        Style="{StaticResource CTA}"
+                        Grid.Row="2" 
+                        Grid.Column="1"
+                        Height="30"
+                        Width="30"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Command="{Binding UnSelectAll}">
+                    
+                    <materialDesign:PackIcon  Kind="FileCancelOutline"
+                                          Height="20"
+                                          Width="30" 
+                                          Margin="-1,-1,0,0"
+                                          Foreground="White" />
+                </Button>
+
+
+
+                <Button x:Name="SelectInvertButton"
+                        Style="{StaticResource CTA}"
+                        Grid.Row="2" 
+                        Grid.Column="2"
+                        Height="30"
+                        Width="30"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Command="{Binding InvertSelection}">
+
+                    <materialDesign:PackIcon  Kind="FileSyncOutline"
+                                          Height="20"
+                                          Width="30" 
+                                          Margin="-1,-1,0,0"
+                                          Foreground="White" />
+                </Button>
+            </Grid>
+
+            <!-- Grid Centrale 3x1 -->
+            <ListBox x:Name="FileList"
+                     Style="{StaticResource ParameterListItem}"
+                     Grid.Row="3"
+                     Grid.Column="1"
+                     Margin="15,0"
+                     ItemsSource="{Binding FilesList}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--Grille de création des objets de la liste-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="27"/>
+                                <ColumnDefinition Width="68"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Button Height="25"
+                                    Width="25"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding FileSelection}"/>
+
+                            <!--Image 64x64px-->
+                            <Image Grid.RowSpan="2"
+                                   Margin="2"
+                                   Height="64"
+                                   Width="64"
+                                   Source="{Binding FileIcone}"/>
+
+                            <!--Liste des infos-->
+                            <StackPanel Orientation="Vertical"
+                                        Grid.Column="1"
+                                        Margin="2">
+
+                                <TextBlock Text="{Binding FileName}"
+                                           Grid.Row="0"
+                                           FontWeight="Bold"/>
+
+                                <TextBlock Text="{Binding FileVersion}"
+                                           Grid.Row="1"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
+
+            <Rectangle Grid.Row="3" Grid.Column="1"
+                    Margin="15,0,15,0" 
+                    RadiusX="8"
+                    RadiusY="8">
+                <Rectangle.Effect>
+                    <BlurEffect Radius="25" RenderingBias="Quality"/>
+                </Rectangle.Effect>
+                <Rectangle.Fill>
+                    <LinearGradientBrush MappingMode="Absolute" StartPoint="402,0" EndPoint="-136.411,318.147" Opacity="0.12">
+                        <GradientStop Color="#FFFFFF"/>
+                        <GradientStop Color="#FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Label Grid.Row="4" Grid.Column="1"
+                   Margin="15"
+                   Content="{Binding ActionButtonText}"
+                   Foreground="White"/>
+
+            <Button Grid.Row="4" Grid.Column="1" 
+                    Style="{StaticResource CTA}"
+                    Width="110" Height="30" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Margin="0,15"
+                    Content="Clear"
+                    Command="{Binding MainAction}"/>
+
+
+
+            <Label Grid.Row="5" Grid.Column="1"
+                   Content="Copyright AbracadaBIM 2021"
+                   VerticalContentAlignment="Bottom"
+                   Foreground="#66FFFFFF" FontSize="10"
+                   Margin="5,0"/>
+        </Grid>
+    </Border>
 </Window>
