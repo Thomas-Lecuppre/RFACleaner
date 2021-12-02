@@ -63,9 +63,39 @@ namespace RFACleaner.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap InvertSelection {
+            get {
+                object obj = ResourceManager.GetObject("InvertSelection", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap RFA_256px {
             get {
                 object obj = ResourceManager.GetObject("RFA_256px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SelectAll {
+            get {
+                object obj = ResourceManager.GetObject("SelectAll", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap UnSelectAll {
+            get {
+                object obj = ResourceManager.GetObject("UnSelectAll", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

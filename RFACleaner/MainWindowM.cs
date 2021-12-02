@@ -247,5 +247,18 @@ namespace RFACleaner
 
             mwvm.ActionButtonText = $"Purger {nbfichiers} pour {totalWeight} {weightunit}";
         }
+
+        public void SortUp()
+        {
+            RevitFiles = new List<SavedRevitFile>(RevitFiles.OrderBy(t => t));
+            Filter(mwvm.SearchText);
+        }
+
+        public void SortDown()
+        {
+            RevitFiles = new List<SavedRevitFile>(RevitFiles.OrderByDescending(t => t.FileName));
+            Filter(mwvm.SearchText);
+
+        }
     }
 }
