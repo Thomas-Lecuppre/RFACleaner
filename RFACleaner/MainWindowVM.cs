@@ -119,26 +119,25 @@ namespace RFACleaner
                 OnPropertyChange("ActionButtonText");
                 if (value == "" || value == null)
                 {
-                    ActionButtonVisibility = Visibility.Hidden;
+                    ActionButtonEnable = false;
                 }
                 else
                 {
-                    ActionButtonVisibility = Visibility.Visible;
+                    ActionButtonEnable = true;
                 }
             }
         }
 
-        private Visibility actionButtonVisibility;
-        public Visibility ActionButtonVisibility
+        private bool actionButtonEnable;
+        public bool ActionButtonEnable
         {
-            get { return actionButtonVisibility; }
+            get { return actionButtonEnable; }
             set 
-            { 
-                actionButtonVisibility = value;
-                OnPropertyChange("ActionButtonVisibility");
+            {
+                actionButtonEnable = value;
+                OnPropertyChange("ActionButtonEnable");
             }
         }
-
 
         #region Command Browse Folder
 
@@ -190,7 +189,7 @@ namespace RFACleaner
 
         public void Execute_MainAction(object parameter)
         {
-
+            mwm.FileToBean();
         }
 
         public bool CanExecute_MainAction(object parameter)
@@ -300,7 +299,6 @@ namespace RFACleaner
                 OnPropertyChange("AppSize");
             }
         }
-
 
         private double twoColumnMaxSize;
         public double TwoColumnMaxSize

@@ -154,6 +154,26 @@
   <ItemGroup>
     <Resource Include="Resources\SelectAll.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\window-restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\window-minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\window-maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RFT_256px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RTE_256px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RVT_256px.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

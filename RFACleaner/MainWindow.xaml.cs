@@ -41,14 +41,18 @@ namespace RFACleaner
             if(this.WindowState == WindowState.Maximized)
             {
                 this.WindowState = WindowState.Normal;
+                MamimizeButtonImage.Source = ResxBitmap(Properties.Resources.window_maximize);
+                MainGrid.Margin = new Thickness(0);
             }
             else
             {
                 this.WindowState = WindowState.Maximized;
+                MamimizeButtonImage.Source = ResxBitmap(Properties.Resources.window_restore);
+                MainGrid.Margin = new Thickness(10);
             }
         }
 
-        private void ManimizeButton_Click(object sender, RoutedEventArgs e)
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.WindowState == WindowState.Minimized)
             {
@@ -71,6 +75,19 @@ namespace RFACleaner
             {
                 DragMove();
             }
+        }
+
+        private BitmapSource ResxBitmap(Bitmap img)
+        {
+            BitmapSource btmSrc;
+
+            btmSrc = Imaging.CreateBitmapSourceFromHBitmap(
+                img.GetHbitmap(),
+                IntPtr.Zero,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            return btmSrc;
         }
     }
 }

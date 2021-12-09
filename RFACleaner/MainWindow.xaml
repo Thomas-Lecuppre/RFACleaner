@@ -116,6 +116,27 @@
                         </Setter.Value>
                     </Setter>
                 </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{StaticResource BB_Background}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                        Background="{StaticResource BB_Background}"
+                                        BorderBrush="{StaticResource BB_Background}"
+                                        BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Template">
                         <Setter.Value>
@@ -123,6 +144,96 @@
                                 <Border CornerRadius="10"
                                         Background="#FF5D5D5D"
                                         BorderBrush="{TemplateBinding Background}"
+                                        BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SizeButtonStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="GhostWhite"
+                                BorderThickness="2">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                        Background="#FF5D5D5D"
+                                        BorderBrush="{StaticResource BB_Borderbrush}"
+                                        BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="CloseStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="GhostWhite"
+                                BorderThickness="2">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                        Background="#FFB62A2A"
+                                        BorderBrush="{StaticResource BB_Borderbrush}"
                                         BorderThickness="2">
                                     <ContentPresenter x:Name="contentPresenter" 
                                               ContentTemplate="{TemplateBinding ContentTemplate}" 
@@ -315,7 +426,7 @@
             BorderBrush="GhostWhite"
             CornerRadius="15,15,0,15"
             Background="#FF2D2D30">
-        <Grid>
+        <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
@@ -333,7 +444,7 @@
                   Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="130"/>
                 </Grid.ColumnDefinitions>
 
                 <Label Foreground="GhostWhite"
@@ -342,6 +453,42 @@
                        HorizontalContentAlignment="Center"
                        HorizontalAlignment="Stretch"
                        Panel.ZIndex="10"/>
+
+                <StackPanel Grid.Row="0"
+                    Grid.Column ="1"
+                    Margin="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+
+                    <Button x:Name="MinimizeButton"
+                            Width="36"
+                            Margin="2,0"
+                            Click="MinimizeButton_Click"
+                            Style="{StaticResource SizeButtonStyle}">
+                        <Image Source="Resources/window-minimize.png"
+                                Margin="2"/>
+                    </Button>
+
+                    <Button x:Name="MaximizeButton"
+                            Width="36"
+                            Margin="2,0"
+                            Click="MaximizeButton_Click"
+                            Style="{StaticResource SizeButtonStyle}">
+                        <Image x:Name="MamimizeButtonImage" 
+                               Source="Resources/window-maximize.png"
+                                Margin="2"/>
+                    </Button>
+
+                    <Button x:Name="ShutDownButton"
+                            Width="36"
+                            Margin="2,0"
+                            Click="ShutDownButton_Click"
+                            Style="{StaticResource CloseStyle}">
+                        <Image Source="Resources/close.png"
+                                Margin="2"/>
+                    </Button>
+
+                </StackPanel>
 
             </Grid>
 
@@ -476,17 +623,18 @@
             <Button x:Name="MainActionButton"
                     Grid.Row="5"
                     Grid.ColumnSpan="2"
-                    Margin="40,2"
-                    HorizontalAlignment="Stretch"
+                    Margin="2"
+                    HorizontalAlignment="Center"
                     HorizontalContentAlignment="Center"
                     Width="auto"
-                    Visibility="{Binding ActionButtonVisibility}"
+                    IsEnabled="{Binding ActionButtonEnable}"
                     BorderBrush="GhostWhite"
                     Background="Transparent"
                     Foreground="GhostWhite"
                     Style="{StaticResource Selector}"
                     Content="{Binding ActionButtonText}"
-                    Command="{Binding MainAction}"/>
+                    Command="{Binding MainAction}"
+                    ToolTip="Une fois que vous avez cliqué sur ce bouton, il n'existe aucun moyen de recupérer vos fichiers. Pensez-y a deux fois."/>
 
         </Grid>
     </Border>

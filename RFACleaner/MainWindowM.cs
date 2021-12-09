@@ -38,7 +38,6 @@ namespace RFACleaner
             }
         }
 
-
         public string Version()
         {
             Assembly a = Assembly.GetExecutingAssembly();
@@ -97,13 +96,43 @@ namespace RFACleaner
             {
                 if(IsSavedFile(file.FullName))
                 {
-                    SavedRevitFile obj = new SavedRevitFile();
-                    obj.FileName = Path.GetFileNameWithoutExtension(file.FullName);
-                    obj.IsSelected = true;
-                    obj.FileVersion = "Unknow";
-                    obj.Icon = ResxBitmap(Properties.Resources.RFA_256px);
-                    obj.FileUid = SetNewGuid();
-                    obj.FileWeight = file.Length;
+                    SavedRevitFile obj = new SavedRevitFile()
+                    {
+                        FileName = Path.GetFileNameWithoutExtension(file.FullName),
+                        FilePath = file.FullName,
+                        IsSelected = true,
+                        FileVersion = "Unknow",
+                        Icon = ResxBitmap(Properties.Resources.RFA_256px),
+                        FileUid = SetNewGuid(),
+                        FileWeight = file.Length
+                    };
+
+                    string ext = Path.GetExtension(file.FullName);
+                    switch (ext)
+                    {
+                        case "rfa":
+                            {
+                                obj.Icon = ResxBitmap(Properties.Resources.RFA_256px);
+                                break;
+                            }
+                        case "rvt":
+                            {
+                                obj.Icon = ResxBitmap(Properties.Resources.RVT_256px);
+                                break;
+                            }
+                        case "rft":
+                            {
+                                obj.Icon = ResxBitmap(Properties.Resources.RFT_256px);
+                                break;
+                            }
+                        case "rte":
+                            {
+                                obj.Icon = ResxBitmap(Properties.Resources.RTE_256px);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
 
                     RevitFiles.Add(obj);
                     mwvm.FilesList.Add(obj);
@@ -245,20 +274,25 @@ namespace RFACleaner
             if (temp.Count() > 1) nbfichiers = $"{temp.Count()} fichiers";
             else nbfichiers = $"{temp.Count()} fichier";
 
-            mwvm.ActionButtonText = $"Purger {nbfichiers} pour {totalWeight} {weightunit}";
+            mwvm.ActionButtonText = $"   Purger {nbfichiers} pour {totalWeight} {weightunit}   ";
         }
 
-        public void SortUp()
+        public void FileToBean()
         {
-            RevitFiles = new List<SavedRevitFile>(RevitFiles.OrderBy(t => t));
-            Filter(mwvm.SearchText);
-        }
+            string beanPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            foreach(SavedRevitFile srf in RevitFiles.Where(t => t.IsSelected))
+            {
+                File.Delete(srf.FilePath);
+            }
+            RevitFiles.RemoveAll(t => t.IsSelected);
 
-        public void SortDown()
-        {
-            RevitFiles = new List<SavedRevitFile>(RevitFiles.OrderByDescending(t => t.FileName));
-            Filter(mwvm.SearchText);
+            mwvm.FilesList.Clear();
 
+            foreach(SavedRevitFile srf in RevitFiles)
+            {
+                srf.IsSelected = true;
+                mwvm.FilesList.Add(srf);
+            }
         }
     }
 }

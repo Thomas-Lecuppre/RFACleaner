@@ -28,6 +28,8 @@ namespace RFACleaner
 
         public string FileName { get; set; }
 
+        public string FilePath { get; set; }
+
         public string FileVersion { get; set; }
 
         private bool isSelected;
@@ -52,7 +54,6 @@ namespace RFACleaner
         }
 
         private string fileTag;
-
         public string FileTag
         {
             get { return fileTag; }
@@ -62,7 +63,6 @@ namespace RFACleaner
                 OnPropertyChange("FileTag");
             }
         }
-
 
         public ImageSource Icon { get; set; }
 
