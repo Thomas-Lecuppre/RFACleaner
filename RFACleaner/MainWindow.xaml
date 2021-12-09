@@ -5,14 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RFACleaner"
         mc:Ignorable="d" 
-        Height="450" 
-        Width="400"
-        Title="{Binding WindowTitle}" 
         FontSize="20"
-        Background="#FF2D2D30"
-        Foreground="GhostWhite">
+        Background="Transparent"
+        Foreground="GhostWhite"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        MouseDown="Window_MouseDown" 
+        d:DesignHeight="800"
+        d:DesignWidth="700" 
+        Height="800" 
+        Width="700"
+        MinHeight="800"
+        MinWidth="700">
 
     <Window.Resources>
+
+        <SolidColorBrush x:Key="AppBackground" Color="#FF2D2D30"/>
+        
+        <!--BLACK BACKGROUND-->
+
+        <SolidColorBrush x:Key="BB_Background" Color="#FF2D2D30"/>
+        <SolidColorBrush x:Key="BB_Borderbrush" Color="GhostWhite"/>
+        <SolidColorBrush x:Key="BB_Foreground" Color="GhostWhite"/>
+        <SolidColorBrush x:Key="MouseOver_BB_Background" Color="Gray"/>
+        <SolidColorBrush x:Key="MouseOver_BB_Borderbrush" Color="#FF2D2D30"/>
+        <SolidColorBrush x:Key="MouseOver_BB_Foreground" Color="GhostWhite"/>
+
+        <LinearGradientBrush x:Key="AppBg"
+                            StartPoint="0,0"
+                            EndPoint="1,1">
+            <GradientStop Color="#66FFFFFF" Offset="0"/>
+            <GradientStop Color="#1AFFFFFF" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="AppBorderBrush"                             
+                            StartPoint="0,1.017" EndPoint="1.024,0">
+            <GradientStop Color="White" Offset="0"/>
+            <GradientStop Color="#0094B2FF" Offset="0.343446"/>
+            <GradientStop Color="#00496BC1" Offset="0.629582"/>
+            <GradientStop Color="#577FE5" Offset="1"/>
+        </LinearGradientBrush>
+
+        <Border x:Key="AppsBorder"
+                Background="Transparent"
+                BorderBrush="{StaticResource AppBorderBrush}"
+                BorderThickness="2" 
+                CornerRadius="16">
+        </Border>
 
         <Style TargetType="Button" x:Key="Selector">
             <Setter Property="Background" Value="Transparent"/>
@@ -114,29 +154,206 @@
             </Setter>
         </Style>
 
+        <!--SCROLLBARS-->
+
+        <Style x:Key="ScrollThumbs" TargetType="{x:Type Thumb}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid x:Name="Grid">
+                            <Rectangle HorizontalAlignment="Stretch" 
+                                       VerticalAlignment="Stretch" 
+                                       Width="Auto" 
+                                       Height="Auto" 
+                                       Fill="Transparent"/>
+                            <Border x:Name="Rectangle1" 
+                                    CornerRadius="5" 
+                                    HorizontalAlignment="Stretch" 
+                                    VerticalAlignment="Stretch" 
+                                    Width="Auto" 
+                                    Height="Auto" 
+                                    Background="{TemplateBinding Background}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" 
+                                     Value="Horizontal">
+                                <Setter TargetName="Rectangle1" 
+                                        Property="Width" 
+                                        Value="Auto"/>
+                                <Setter TargetName="Rectangle1" 
+                                        Property="Height" 
+                                        Value="5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}">
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Foreground" Value="{StaticResource BB_Borderbrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                        <Grid x:Name="GridRoot" Width="10" Background="{x:Null}">
+                            <Track x:Name="PART_Track" Grid.Row="0" IsDirectionReversed="true" Focusable="False">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Background="{TemplateBinding Foreground}" 
+                                               Style="{DynamicResource ScrollThumbs}"/>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton x:Name="PageUp" Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton x:Name="PageDown" Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False"/>
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger SourceName="Thumb" Property="IsMouseOver" Value="true">
+                                <Setter Value="{DynamicResource ButtonSelectBrush}" 
+                                            TargetName="Thumb" Property="Background"/>
+                            </Trigger>
+                            <Trigger SourceName="Thumb" Property="IsDragging" Value="true">
+                                <Setter Value="{DynamicResource DarkBrush}" TargetName="Thumb" Property="Background"/>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Thumb" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="Orientation" Value="Horizontal">
+                                <Setter TargetName="GridRoot" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="PART_Track" Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Width" Value="Auto"/>
+                                <Setter Property="Height" Value="12"/>
+                                <Setter TargetName="Thumb" Property="Tag" Value="Horizontal"/>
+                                <Setter TargetName="PageDown" Property="Command" Value="ScrollBar.PageLeftCommand"/>
+                                <Setter TargetName="PageUp" Property="Command" Value="ScrollBar.PageRightCommand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FinishedWindow" TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+            <Setter Property="Foreground" Value="{StaticResource BB_Foreground}"/>
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CaptionHeight="0"
+                                  CornerRadius="20"
+                                  GlassFrameThickness="0"
+                                  NonClientFrameEdges="None"
+                                  ResizeBorderThickness="5"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid>
+                            <Border Background="{StaticResource BB_Background}" 
+                                    BorderBrush="{StaticResource BB_Borderbrush}" 
+                                    BorderThickness="4,4,6,6" 
+                                    CornerRadius="12">
+                                <Border.Effect>
+                                    <BlurEffect  KernelType="Gaussian" 
+                                                 Radius="12" 
+                                                 RenderingBias="Quality" />
+                                </Border.Effect>
+                            </Border>
+                            <Border BorderBrush="{StaticResource BB_Borderbrush}" 
+                                    BorderThickness="2" 
+                                    CornerRadius="12" 
+                                    ClipToBounds="True">
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}" 
+                                              Foreground="{StaticResource BB_Foreground}"
+                                              Grid.Row="0"
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Bottom"
+                                              FontWeight="Bold"
+                                              FontSize="16"
+                                         />
+                                <Button Name="CloseButton" 
+                                        Width="20" Height="20"   
+                                        Grid.Row="0"
+                                        HorizontalAlignment="Right"
+                                        BorderThickness="0"
+                                        Margin="0,12,12,0"
+                                        Style="{StaticResource Selector}"/>
+                                <ContentPresenter Grid.Row="1" 
+                                                  Margin="12"/>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
-    <Grid>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="35"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="35"/>
-        </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="FolderPath"
+    <Border BorderThickness="2"
+            BorderBrush="GhostWhite"
+            CornerRadius="15,15,0,15"
+            Background="#FF2D2D30">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.ColumnSpan="2"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Foreground="GhostWhite"
+                       Margin="2"
+                       Content="{Binding WindowTitle}"
+                       HorizontalContentAlignment="Center"
+                       HorizontalAlignment="Stretch"
+                       Panel.ZIndex="10"/>
+
+            </Grid>
+
+            <TextBox x:Name="FolderPath"
+                 Grid.Row="1"
                  Margin="2"
                  Foreground="GhostWhite"
                  Style="{StaticResource RoundedTextBox}"
                  Text="{Binding FolderPath}"/>
 
-        <Button x:Name="FolderBrowserButton"
+            <Button x:Name="FolderBrowserButton"
+                Grid.Row="1"
                 Grid.Column="1"
                 Margin="2"
                 BorderBrush="GhostWhite"
@@ -147,125 +364,133 @@
                 Style="{StaticResource Selector}"
                 Command="{Binding BrowseFolder}"/>
 
-        <TextBox x:Name="SearchBox"
-                 Grid.Row="1"
+            <TextBox x:Name="SearchBox"
+                 Grid.Row="2"
                  Grid.ColumnSpan="2"
                  Margin="2"
                  Foreground="GhostWhite"
                  Style="{StaticResource RoundedTextBox}"
                  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <StackPanel Grid.Row="2"
+            <StackPanel Grid.Row="3"
                     Grid.ColumnSpan ="2"
                     Margin="2"
                     HorizontalAlignment="Left"
                     Orientation="Horizontal">
 
-            <Button x:Name="SelectAll"
-                    Width="32"
+                <Button x:Name="SelectAll"
+                    Width="36"
                     Margin="2,0"
                     Command="{Binding SelectAll}"
                     Style="{StaticResource Selector}">
-                <Image Source="Resources/SelectAll.png"
+                    <Image Source="Resources/SelectAll.png"
                        Margin="2"/>
-            </Button>
+                </Button>
 
-            <Button x:Name="UnselectAll"
-                    Width="32"
+                <Button x:Name="UnselectAll"
+                    Width="36"
                     Margin="2,0"
                     Command="{Binding UnSelectAll}"
                     Style="{StaticResource Selector}">
-                <Image Source="Resources/UnSelectAll.png"
+                    <Image Source="Resources/UnSelectAll.png"
                        Margin="2"/>
-            </Button>
+                </Button>
 
-            <Button x:Name="InvertSelection"
-                    Width="32"
+                <Button x:Name="InvertSelection"
+                    Width="36"
                     Margin="2,0"
                     Command="{Binding InvertSelection}"
                     Style="{StaticResource Selector}">
-                <Image Source="Resources/InvertSelection.png"
+                    <Image Source="Resources/InvertSelection.png"
                        Margin="2"/>
-            </Button>
+                </Button>
 
-        </StackPanel>
+            </StackPanel>
 
-        <ItemsControl x:Name="FileList"
-                      Grid.Row="3"
-                      Grid.ColumnSpan="2"
-                      Margin="2"
-                      BorderBrush="GhostWhite"
-                      Background="Transparent"
-                      Foreground="GhostWhite"
-                      ItemsSource="{Binding FilesList}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <!--Grille de création des objets de la liste-->
-                    <Grid HorizontalAlignment="Stretch"
-                          Margin="0,2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="68"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="4"
+                          Grid.ColumnSpan="2"
+                          Margin="2">
 
-                        <Button Grid.Column="0"
-                                Grid.RowSpan="3"
+                <ItemsControl x:Name="FileList"
+                                Grid.Row="4"
+                                Grid.ColumnSpan="2"
                                 Margin="2"
-                                Height="64"
-                                VerticalAlignment="Center"
-                                VerticalContentAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Tag="{Binding FileTag}"
-                                Uid="{Binding FileUid}"
-                                Style="{StaticResource Selector}"
-                                Click="Button_Click">
+                                ItemsSource="{Binding FilesList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <!--Grille de création des objets de la liste-->
+                            <Grid HorizontalAlignment="Stretch"
+                                  Margin="0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="68"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                            <!--Image 64x64px-->
-                            <Image Stretch="Fill"
-                                   Source="{Binding Icon}"/>
+                                <Button Grid.Column="0"
+                                        Grid.RowSpan="3"
+                                        Margin="2"
+                                        Height="64"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        Tag="{Binding FileTag}"
+                                        Uid="{Binding FileUid}"
+                                        Style="{StaticResource Selector}"
+                                        Click="Button_Click">
 
-                        </Button>
+                                    <!--Image 64x64px-->
+                                    <Image Stretch="Fill"
+                                           Source="{Binding Icon}"/>
 
-                        <!--Liste des infos-->
+                                </Button>
 
-                        <TextBlock Text="{Binding FileName}"
-                                   Grid.Row="0"
-                                   Grid.Column="1"
-                                   Margin="5,0"
-                                   FontWeight="Bold"/>
+                                <!--Liste des infos-->
 
-                        <TextBlock Text="{Binding FileVersion}"
-                                   Grid.Row="1"
-                                   Grid.Column="1"
-                                   Margin="5,0"/>
+                                <TextBlock Text="{Binding FileName}"
+                                           Grid.Row="0"
+                                           Grid.Column="1"
+                                           Margin="5,0"
+                                           FontWeight="Bold"/>
 
-                        <TextBlock Text="{Binding Weight}"
-                                   Grid.Row="2"
-                                   Grid.Column="1"
-                                   Margin="5,0"/>
+                                <TextBlock Text="{Binding FileVersion}"
+                                           Grid.Row="1"
+                                           Grid.Column="1"
+                                           Margin="5,0"/>
 
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                                <TextBlock Text="{Binding Weight}"
+                                           Grid.Row="2"
+                                           Grid.Column="1"
+                                           Margin="5,0"/>
 
-        </ItemsControl>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
 
-        <Button x:Name="MainActionButton"
-                Grid.Row="4"
-                Grid.ColumnSpan="2"
-                Margin="2"
-                Width="auto"
-                BorderBrush="GhostWhite"
-                Background="Transparent"
-                Foreground="GhostWhite"
-                Style="{StaticResource Selector}"
-                Content="{Binding ActionButtonText}"
-                Command="{Binding MainAction}"/>
+            <Button x:Name="MainActionButton"
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2"
+                    Margin="40,2"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Width="auto"
+                    Visibility="{Binding ActionButtonVisibility}"
+                    BorderBrush="GhostWhite"
+                    Background="Transparent"
+                    Foreground="GhostWhite"
+                    Style="{StaticResource Selector}"
+                    Content="{Binding ActionButtonText}"
+                    Command="{Binding MainAction}"/>
 
-    </Grid>
+        </Grid>
+    </Border>
+    
+
+
 </Window>

@@ -39,7 +39,6 @@ namespace RFACleaner
         }
 
         private string windowTitle;
-
         public string WindowTitle
         {
             get 
@@ -53,9 +52,7 @@ namespace RFACleaner
             }
         }
 
-
         private string folderPath;
-
         public string FolderPath
         {
             get 
@@ -78,7 +75,6 @@ namespace RFACleaner
         }
 
         private string searchText;
-
         public string SearchText
         {
             get 
@@ -97,7 +93,6 @@ namespace RFACleaner
         }
 
         private ObservableCollection<SavedRevitFile> filesList;
-
         public ObservableCollection<SavedRevitFile> FilesList
         {
             get 
@@ -111,9 +106,7 @@ namespace RFACleaner
             }
         }
 
-
         private string actionButtonText;
-
         public string ActionButtonText
         {
             get 
@@ -124,8 +117,28 @@ namespace RFACleaner
             { 
                 actionButtonText = value;
                 OnPropertyChange("ActionButtonText");
+                if (value == "" || value == null)
+                {
+                    ActionButtonVisibility = Visibility.Hidden;
+                }
+                else
+                {
+                    ActionButtonVisibility = Visibility.Visible;
+                }
             }
         }
+
+        private Visibility actionButtonVisibility;
+        public Visibility ActionButtonVisibility
+        {
+            get { return actionButtonVisibility; }
+            set 
+            { 
+                actionButtonVisibility = value;
+                OnPropertyChange("ActionButtonVisibility");
+            }
+        }
+
 
         #region Command Browse Folder
 
@@ -268,6 +281,41 @@ namespace RFACleaner
         {
             return true;
         }
+
+        #endregion
+
+        #region Application size
+
+        private double appSize;
+        public double AppSize
+        {
+            get 
+            { 
+                return appSize; 
+            }
+            set 
+            { 
+                appSize = value;
+                TwoColumnMaxSize = appSize - 240;
+                OnPropertyChange("AppSize");
+            }
+        }
+
+
+        private double twoColumnMaxSize;
+        public double TwoColumnMaxSize
+        {
+            get 
+            { 
+                return twoColumnMaxSize; 
+            }
+            set 
+            { 
+                twoColumnMaxSize = value;
+                OnPropertyChange("TwoColumnMaxSize");
+            }
+        }
+
 
         #endregion
 
