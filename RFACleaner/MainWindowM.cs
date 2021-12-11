@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using MessageBox = System.Windows.MessageBox;
 using System.Reflection;
 using System.Diagnostics;
+using System.Threading;
 
 namespace RFACleaner
 {
@@ -85,59 +86,63 @@ namespace RFACleaner
             return btmSrc;
         }
 
-        public void GetRevitFiles(string folderPath)
+        public async void GetRevitFiles(string folderPath)
         {
-            DirectoryInfo dir = new DirectoryInfo(folderPath);
-            List<FileInfo> files = dir.GetFiles("*.*", SearchOption.AllDirectories)
-            .Where(s => s.Name.EndsWith(".rfa") || s.Name.EndsWith(".rvt"))
-            .ToList();
-
-            foreach (FileInfo file in files)
+            await App.Current.Dispatcher.BeginInvoke(new ThreadStart(() =>
             {
-                if(IsSavedFile(file.FullName))
+                DirectoryInfo dir = new DirectoryInfo(folderPath);
+                List<FileInfo> files = dir.GetFiles("*.*", SearchOption.AllDirectories)
+                .Where(s => s.Name.EndsWith(".rfa") || s.Name.EndsWith(".rvt") || s.Name.EndsWith(".rft") || s.Name.EndsWith(".rte"))
+                .ToList();
+
+                foreach (FileInfo file in files)
                 {
-                    SavedRevitFile obj = new SavedRevitFile()
+                    if (IsSavedFile(file.FullName))
                     {
-                        FileName = Path.GetFileNameWithoutExtension(file.FullName),
-                        FilePath = file.FullName,
-                        IsSelected = true,
-                        FileVersion = "Unknow",
-                        Icon = ResxBitmap(Properties.Resources.RFA_256px),
-                        FileUid = SetNewGuid(),
-                        FileWeight = file.Length
-                    };
+                        SavedRevitFile obj = new SavedRevitFile()
+                        {
+                            FileName = Path.GetFileNameWithoutExtension(file.FullName),
+                            FilePath = file.FullName,
+                            IsSelected = true,
+                            FileVersion = "Unknow",
+                            Icon = ResxBitmap(Properties.Resources.RFA_256px),
+                            FileUid = SetNewGuid(),
+                            FileWeight = file.Length
+                        };
 
-                    string ext = Path.GetExtension(file.FullName);
-                    switch (ext)
-                    {
-                        case "rfa":
-                            {
-                                obj.Icon = ResxBitmap(Properties.Resources.RFA_256px);
+                        string ext = Path.GetExtension(file.FullName);
+                        switch (ext)
+                        {
+                            case "rfa":
+                                {
+                                    obj.Icon = ResxBitmap(Properties.Resources.RFA_256px);
+                                    break;
+                                }
+                            case "rvt":
+                                {
+                                    obj.Icon = ResxBitmap(Properties.Resources.RVT_256px);
+                                    break;
+                                }
+                            case "rft":
+                                {
+                                    obj.Icon = ResxBitmap(Properties.Resources.RFT_256px);
+                                    break;
+                                }
+                            case "rte":
+                                {
+                                    obj.Icon = ResxBitmap(Properties.Resources.RTE_256px);
+                                    break;
+                                }
+                            default:
                                 break;
-                            }
-                        case "rvt":
-                            {
-                                obj.Icon = ResxBitmap(Properties.Resources.RVT_256px);
-                                break;
-                            }
-                        case "rft":
-                            {
-                                obj.Icon = ResxBitmap(Properties.Resources.RFT_256px);
-                                break;
-                            }
-                        case "rte":
-                            {
-                                obj.Icon = ResxBitmap(Properties.Resources.RTE_256px);
-                                break;
-                            }
-                        default:
-                            break;
+                        }
+
+                        RevitFiles.Add(obj);
+                        mwvm.FilesList.Add(obj);
                     }
-
-                    RevitFiles.Add(obj);
-                    mwvm.FilesList.Add(obj);
                 }
-            }
+            }));
+
             GetFileWeight();
         }
 
@@ -205,19 +210,22 @@ namespace RFACleaner
             Filter(mwvm.SearchText);
         }
 
-        public void Filter(string filtre)
+        public async void Filter(string filtre)
         {
-            if(filtre != null)
+            await App.Current.Dispatcher.BeginInvoke(new ThreadStart(() =>
             {
-                IEnumerable<SavedRevitFile> temp = RevitFiles.Where(t => t.FileName.Contains(filtre));
-
-                mwvm.FilesList.Clear();
-                foreach (SavedRevitFile srf in temp)
+                if (filtre != null)
                 {
-                    mwvm.FilesList.Add(srf);
-                }
-            }
+                    IEnumerable<SavedRevitFile> temp = RevitFiles.Where(t => t.FileName.Contains(filtre));
 
+                    mwvm.FilesList.Clear();
+                    foreach (SavedRevitFile srf in temp)
+                    {
+                        mwvm.FilesList.Add(srf);
+                    }
+                }
+            }));
+            
             GetFileWeight();
         }
 
