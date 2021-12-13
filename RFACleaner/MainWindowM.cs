@@ -104,8 +104,7 @@ namespace RFACleaner
                             FileName = Path.GetFileNameWithoutExtension(file.FullName),
                             FilePath = file.FullName,
                             IsSelected = true,
-                            FileVersion = "Unknow",
-                            Icon = ResxBitmap(Properties.Resources.RFA_256px),
+                            FileVersion = GetRevitFileVersion(file.FullName),
                             FileUid = SetNewGuid(),
                             FileWeight = file.Length
                         };
@@ -113,22 +112,22 @@ namespace RFACleaner
                         string ext = Path.GetExtension(file.FullName);
                         switch (ext)
                         {
-                            case "rfa":
+                            case ".rfa":
                                 {
                                     obj.Icon = ResxBitmap(Properties.Resources.RFA_256px);
                                     break;
                                 }
-                            case "rvt":
+                            case ".rvt":
                                 {
                                     obj.Icon = ResxBitmap(Properties.Resources.RVT_256px);
                                     break;
                                 }
-                            case "rft":
+                            case ".rft":
                                 {
                                     obj.Icon = ResxBitmap(Properties.Resources.RFT_256px);
                                     break;
                                 }
-                            case "rte":
+                            case ".rte":
                                 {
                                     obj.Icon = ResxBitmap(Properties.Resources.RTE_256px);
                                     break;
@@ -144,6 +143,50 @@ namespace RFACleaner
             }));
 
             GetFileWeight();
+        }
+
+        private string GetRevitFileVersion(string filePath)
+        {
+            List<Encoding> e = new List<Encoding>
+            {
+                Encoding.Unicode,
+                Encoding.BigEndianUnicode,
+                Encoding.ASCII,
+                Encoding.Default,
+                Encoding.UTF32,
+                Encoding.UTF7,
+                Encoding.UTF8
+            };
+
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+            string version = "";
+            string build = "";
+            bool succes = false;
+
+            foreach (Encoding encode in e)
+            {
+                version = "";
+                string fileContent = encode.GetString(fileBytes);
+                int index = fileContent.IndexOf("Build: ");
+
+                if (index > 0) fileContent = fileContent.Remove(0, index);
+                int indexP = fileContent.IndexOf(')');
+
+                build = fileContent.Substring(0, indexP + 1);
+
+                version = fileContent.Substring(7, 4);
+                int realVersion = 0;
+
+                if (int.TryParse(version, out realVersion))
+                {
+                    succes = true;
+                    break;
+                }
+            }
+
+            if (!succes) version = $"Unknow";
+
+            return version;
         }
 
         private bool IsSavedFile(string file)
