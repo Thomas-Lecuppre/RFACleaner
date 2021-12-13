@@ -147,46 +147,63 @@ namespace RFACleaner
 
         private string GetRevitFileVersion(string filePath)
         {
-            List<Encoding> e = new List<Encoding>
-            {
-                Encoding.Unicode,
-                Encoding.BigEndianUnicode,
-                Encoding.ASCII,
-                Encoding.Default,
-                Encoding.UTF32,
-                Encoding.UTF7,
-                Encoding.UTF8
-            };
-
-            byte[] fileBytes = File.ReadAllBytes(filePath);
             string version = "";
-            string build = "";
+
+            List<Encoding> e = new List<Encoding>
+                {
+                    Encoding.BigEndianUnicode,
+                    Encoding.Unicode,
+                    Encoding.ASCII,
+                    Encoding.Default,
+                    Encoding.UTF32,
+                    Encoding.UTF7,
+                    Encoding.UTF8
+                };
+
             bool succes = false;
 
             foreach (Encoding encode in e)
             {
-                version = "";
-                string fileContent = encode.GetString(fileBytes);
-                int index = fileContent.IndexOf("Build: ");
-
-                if (index > 0) fileContent = fileContent.Remove(0, index);
-                int indexP = fileContent.IndexOf(')');
-
-                build = fileContent.Substring(0, indexP + 1);
-
-                version = fileContent.Substring(7, 4);
-                int realVersion = 0;
-
-                if (int.TryParse(version, out realVersion))
+                const int MAX_BUFFER = 4096;
+                byte[] buffer = new byte[MAX_BUFFER];
+                int bytesRead;
+                using (System.IO.FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    succes = true;
-                    break;
+                    while ((bytesRead = fileStream.Read(buffer, 0, MAX_BUFFER)) != 0)
+                    {
+                        // Contenu du buffer en string
+                        string fileContent = encode.GetString(buffer);
+                        int index = fileContent.IndexOf("Build: ");
+
+                        //Si la chaine contient le "build"
+                        if (index > 0)
+                        {
+                            fileContent = fileContent.Remove(0, index);
+                            fileContent = fileContent.Substring(0, fileContent.IndexOf(')') + 1);
+
+                            version = fileContent.Substring(7, 4);
+                            int realVersion = 0;
+
+                            if (int.TryParse(version, out realVersion))
+                            {
+                                succes = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (succes)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        version = "Unknow";
+                    }
                 }
             }
 
-            if (!succes) version = $"Unknow";
-
             return version;
+
         }
 
         private bool IsSavedFile(string file)
