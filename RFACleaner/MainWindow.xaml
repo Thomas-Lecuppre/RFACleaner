@@ -1,4 +1,4 @@
-﻿<Window x:Class="RFACleaner.MainWindow"
+﻿<Window x:Name="window" x:Class="RFACleaner.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,6 @@
         xmlns:local="clr-namespace:RFACleaner"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" 
-        fw:AcrylicWindow.Enabled="True"
-        fw:AcrylicWindow.AcrylicWindowStyle="None"
         mc:Ignorable="d" 
         FontSize="20"
         Background="Transparent"
@@ -26,7 +24,7 @@
     <Window.Resources>
 
         <SolidColorBrush x:Key="AppBackground" Color="#FF2D2D30"/>
-        
+
         <!--BLACK BACKGROUND-->
 
         <SolidColorBrush x:Key="BB_Background" Color="#FF2D2D30"/>
@@ -121,6 +119,71 @@
                     </Setter>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                        Background="#FF5D5D5D"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="10"
+                                        Background="#FF2D2D30"
+                                        BorderBrush="#FF2D2D30"
+                                        BorderThickness="2">
+                                    <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="SensitiveStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="GhostWhite"
+                                BorderThickness="2">
+                            <ContentPresenter x:Name="contentPresenter" 
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                              Content="{TemplateBinding Content}" 
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Tag" Value="Selected">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
@@ -363,13 +426,19 @@
     <Border BorderThickness="2"
             BorderBrush="GhostWhite"
             CornerRadius="15,15,0,15"
-            Background="Transparent">
+            Background="#FF2D2D30"
+            MouseDown="Window_MouseDown">
+
+        <!--format-letter-case-->
+        
         <Grid x:Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
@@ -431,33 +500,62 @@
             </Grid>
 
             <TextBox x:Name="FolderPath"
-                 Grid.Row="1"
+                 Grid.Row="2"
                  Margin="2"
                  Foreground="GhostWhite"
                  Style="{StaticResource RoundedTextBox}"
                  Text="{Binding FolderPath}"/>
 
             <Button x:Name="FolderBrowserButton"
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="2"
-                BorderBrush="GhostWhite"
-                Background="Transparent"
-                Foreground="GhostWhite"
-                Content="..."
-                FontWeight="Bold"
-                Style="{StaticResource ButtonStyle}"
-                Command="{Binding BrowseFolder}"/>
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="2"
+                    BorderBrush="GhostWhite"
+                    Background="Transparent"
+                    Foreground="GhostWhite"
+                    FontWeight="Bold"
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding BrowseFolder}">
+
+                <materialDesign:PackIcon Kind="DotsHorizontal"
+                                         Foreground="White"
+                                         Height="30" 
+                                         Width="30" 
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+
+            </Button>
 
             <TextBox x:Name="SearchBox"
-                 Grid.Row="2"
-                 Grid.ColumnSpan="2"
+                 Grid.Row="4"
                  Margin="2"
                  Foreground="GhostWhite"
                  Style="{StaticResource RoundedTextBox}"
                  Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <StackPanel Grid.Row="3"
+            <Button x:Name="CaseSensitiveButton"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="2"
+                    BorderBrush="GhostWhite"
+                    Background="Transparent"
+                    Foreground="GhostWhite"
+                    FontWeight="Bold"
+                    Tag="{Binding CaseSensitiveTag}"
+                    Style="{StaticResource SensitiveStyle}"
+                    Command="{Binding CaseSensitive}"
+                    ToolTip="{Binding CaseSensitiveToolTip}">
+
+                <materialDesign:PackIcon Kind="FormatLetterCase"
+                                         Foreground="White"
+                                         Height="30" 
+                                         Width="30" 
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+
+            </Button>
+
+            <StackPanel Grid.Row="5"
                     Grid.ColumnSpan ="2"
                     Margin="2"
                     HorizontalAlignment="Left"
@@ -468,8 +566,10 @@
                     Margin="2,0"
                     Command="{Binding SelectAll}"
                     Style="{StaticResource ButtonStyle}">
-                    <Image Source="Resources/SelectAll.png"
-                       Margin="2"/>
+                    <materialDesign:PackIcon  Kind="FileCheckOutline"
+                                              Height="30"
+                                              Width="30"
+                                              Foreground="White"/>
                 </Button>
 
                 <Button x:Name="UnselectAll"
@@ -477,8 +577,10 @@
                     Margin="2,0"
                     Command="{Binding UnSelectAll}"
                     Style="{StaticResource ButtonStyle}">
-                    <Image Source="Resources/UnSelectAll.png"
-                       Margin="2"/>
+                    <materialDesign:PackIcon  Kind="FileCancelOutline"
+                                              Height="30"
+                                              Width="30"
+                                              Foreground="White"/>
                 </Button>
 
                 <Button x:Name="InvertSelection"
@@ -486,13 +588,15 @@
                     Margin="2,0"
                     Command="{Binding InvertSelection}"
                     Style="{StaticResource ButtonStyle}">
-                    <Image Source="Resources/InvertSelection.png"
-                       Margin="2"/>
+                    <materialDesign:PackIcon  Kind="FileSyncOutline"
+                                              Height="30"
+                                              Width="30"
+                                              Foreground="White"/>
                 </Button>
 
             </StackPanel>
 
-            <ScrollViewer Grid.Row="4"
+            <ScrollViewer Grid.Row="6"
                           Grid.ColumnSpan="2"
                           Margin="2">
 
@@ -553,7 +657,7 @@
             </ScrollViewer>
 
             <Button x:Name="MainActionButton"
-                    Grid.Row="5"
+                    Grid.Row="7"
                     Grid.ColumnSpan="2"
                     Margin="2"
                     HorizontalAlignment="Center"
@@ -570,7 +674,7 @@
 
         </Grid>
     </Border>
-    
+
 
 
 </Window>

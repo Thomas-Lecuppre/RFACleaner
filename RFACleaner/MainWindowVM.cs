@@ -27,7 +27,8 @@ namespace RFACleaner
 
         public MainWindowVM()
         {
-            mwm = new MainWindowM(this);
+            CaseSensitiveTag = "NotSelected";
+
             filesList = new ObservableCollection<SavedRevitFile>();
 
             browseFolder = new CommandeRelais(Execute_BrowseFolder, CanExecute_BrowseFolder);
@@ -35,6 +36,10 @@ namespace RFACleaner
             selectAll = new CommandeRelais(Execute_SelectAll, CanExecute_SelectAll);
             unselectAll = new CommandeRelais(Execute_UnSelectAll, CanExecute_UnSelectAll);
             invertSelection = new CommandeRelais(Execute_InvertSelection, CanExecute_InvertSelection);
+            caseSensitive = new CommandeRelais(Execute_CaseSensitive, CanExecute_CaseSensitive);
+
+            mwm = new MainWindowM(this);
+
             WindowTitle = mwm.Version();
         }
 
@@ -89,7 +94,7 @@ namespace RFACleaner
                 if(value != searchText)
                 {
                     searchText = value;
-                    mwm.Filter(searchText);
+                    mwm.Filter(searchText, CaseSensitiveTag == "Selected");
                     OnPropertyChange("SearchText");
                 }
             }
@@ -142,6 +147,37 @@ namespace RFACleaner
             }
         }
 
+        private string caseSensitiveTag;
+        public string CaseSensitiveTag
+        {
+            get { return caseSensitiveTag; }
+            set 
+            { 
+                caseSensitiveTag = value;
+                if(value == "Selected")
+                {
+                    CaseSensitiveToolTip = "Le filtre tiens compte des majuscules et minuscules";
+                }
+                else
+                {
+                    CaseSensitiveToolTip = "Le filtre ne tiens compte des majuscules et minuscules";
+                }
+                OnPropertyChange("CaseSensitiveTag");
+            }
+        }
+
+        private string caseSensitiveToolTip;
+        public string CaseSensitiveToolTip
+        {
+            get { return caseSensitiveToolTip; }
+            set 
+            { 
+                caseSensitiveToolTip = value;
+                OnPropertyChange("CaseSensitiveToolTip");
+            }
+        }
+
+
         #region Command Browse Folder
 
         private ICommand browseFolder;
@@ -177,7 +213,6 @@ namespace RFACleaner
         #region Command Main Action
 
         private ICommand mainAction;
-
         public ICommand MainAction
         {
             get
@@ -280,6 +315,41 @@ namespace RFACleaner
         }
 
         public bool CanExecute_InvertSelection(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
+
+        #region Command CaseSensitive
+
+        private ICommand caseSensitive;
+
+        public ICommand CaseSensitive
+        {
+            get
+            {
+                return caseSensitive;
+            }
+            set
+            {
+                caseSensitive = value;
+            }
+        }
+
+        public void Execute_CaseSensitive(object parameter)
+        {
+            if(CaseSensitiveTag == "Selected")
+            {
+                CaseSensitiveTag = "NotSelected";
+            }
+            else
+            {
+                CaseSensitiveTag = "Selected";
+            }
+        }
+
+        public bool CanExecute_CaseSensitive(object parameter)
         {
             return true;
         }

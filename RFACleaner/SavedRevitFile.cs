@@ -27,20 +27,7 @@ namespace RFACleaner
         }
 
         public string FileName { get; set; }
-
         public string FilePath { get; set; }
-
-        private string fileVersion;
-
-        public string FileVersion
-        {
-            get { return fileVersion; }
-            set 
-            { 
-                fileVersion = $"Version : {value}";
-                OnPropertyChange("FileVersion");
-            }
-        }
 
         private bool isSelected;
         public bool IsSelected
@@ -84,7 +71,6 @@ namespace RFACleaner
                 OnPropertyChange("Icon");
             }
         }
-
 
         private string fileUid;
         public string FileUid

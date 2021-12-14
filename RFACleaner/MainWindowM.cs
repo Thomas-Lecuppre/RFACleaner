@@ -13,6 +13,7 @@ using MessageBox = System.Windows.MessageBox;
 using System.Reflection;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Media;
 
 namespace RFACleaner
 {
@@ -20,24 +21,19 @@ namespace RFACleaner
     {
         MainWindowVM mwvm;
 
+        List<ImageSource> icons = new List<ImageSource>();
+
         public MainWindowM(MainWindowVM mvm)
         {
             mwvm = mvm;
             revitFiles = new List<SavedRevitFile>();
+            icons.Add(ResxBitmap(Properties.Resources.RFA_256px));
+            icons.Add(ResxBitmap(Properties.Resources.RVT_256px));
+            icons.Add(ResxBitmap(Properties.Resources.RFT_256px));
+            icons.Add(ResxBitmap(Properties.Resources.RTE_256px));
         }
 
-        private List<SavedRevitFile> revitFiles;
-        public List<SavedRevitFile> RevitFiles
-        {
-            get 
-            { 
-                return revitFiles; 
-            }
-            set 
-            { 
-                revitFiles = value; 
-            }
-        }
+        private List<SavedRevitFile> revitFiles = new List<SavedRevitFile>();
 
         public string Version()
         {
@@ -88,6 +84,7 @@ namespace RFACleaner
 
         public async void GetRevitFiles(string folderPath)
         {
+            mwvm.ActionButtonText = "   Analyse des fichiers   ";
             await App.Current.Dispatcher.BeginInvoke(new ThreadStart(() =>
             {
                 DirectoryInfo dir = new DirectoryInfo(folderPath);
@@ -113,32 +110,32 @@ namespace RFACleaner
                         {
                             case ".rfa":
                                 {
-                                    obj.Icon = ResxBitmap(Properties.Resources.RFA_256px);
+                                    obj.Icon = icons[0];
                                     break;
                                 }
                             case ".rvt":
                                 {
-                                    obj.Icon = ResxBitmap(Properties.Resources.RVT_256px);
+                                    obj.Icon = icons[1];
                                     break;
                                 }
                             case ".rft":
                                 {
-                                    obj.Icon = ResxBitmap(Properties.Resources.RFT_256px);
+                                    obj.Icon = icons[2];
                                     break;
                                 }
                             case ".rte":
                                 {
-                                    obj.Icon = ResxBitmap(Properties.Resources.RTE_256px);
+                                    obj.Icon = icons[3];
                                     break;
                                 }
                             default:
                                 break;
                         }
-
-                        RevitFiles.Add(obj);
+                        revitFiles.Add(obj);
                         mwvm.FilesList.Add(obj);
                     }
                 }
+
             }));
 
             GetFileWeight();
@@ -232,58 +229,69 @@ namespace RFACleaner
 
         public void SelectAllFiles()
         {
-            foreach(SavedRevitFile srf in RevitFiles.Where(f => !f.IsSelected))
+            foreach(SavedRevitFile srf in revitFiles.Where(f => !f.IsSelected))
             {
                 srf.IsSelected = true;
             }
 
-            Filter(mwvm.SearchText);
+            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
         }
 
         public void UnSelectAllFiles()
         {
-            foreach (SavedRevitFile srf in RevitFiles.Where(f => f.IsSelected))
+            foreach (SavedRevitFile srf in revitFiles.Where(f => f.IsSelected))
             {
                 srf.IsSelected = false;
             }
 
-            Filter(mwvm.SearchText);
+            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
         }
 
         public void InvertFilesSelection()
         {
-            foreach (SavedRevitFile srf in RevitFiles)
+            foreach (SavedRevitFile srf in revitFiles)
             {
                 srf.IsSelected = !srf.IsSelected;
             }
 
-            Filter(mwvm.SearchText);
+            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
         }
 
         public void Select(string uid)
         {
-            SavedRevitFile srf = RevitFiles.Where(t => t.FileUid == uid).FirstOrDefault();
+            SavedRevitFile srf = revitFiles.Where(t => t.FileUid == uid).FirstOrDefault();
 
             if(srf != null)
             {
                 srf.IsSelected = !srf.IsSelected;
             }
 
-            Filter(mwvm.SearchText);
+            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
         }
 
-        public async void Filter(string filtre)
+        public async void Filter(string filtre, bool isCaseSensitive)
         {
             await App.Current.Dispatcher.BeginInvoke(new ThreadStart(() =>
             {
                 if (filtre != null)
                 {
-                    IEnumerable<SavedRevitFile> temp = RevitFiles.Where(t => t.FileName.Contains(filtre));
-
                     mwvm.FilesList.Clear();
-                    foreach (SavedRevitFile srf in temp)
+                    foreach (SavedRevitFile srf in revitFiles)
                     {
-                        mwvm.FilesList.Add(srf);
+                        if (isCaseSensitive)
+                        {
+                            if (srf.FileName.Contains(filtre))
+                            {
+                                mwvm.FilesList.Add(srf);
+                            }
+                        }
+                        else
+                        {
+                            if (srf.FileName.ToLowerInvariant().Contains(filtre.ToLowerInvariant()))
+                            {
+                                mwvm.FilesList.Add(srf);
+                            }
+                        }
                     }
                 }
             }));
@@ -295,14 +303,14 @@ namespace RFACleaner
         {
             string uid = Guid.NewGuid().ToString();
 
-            if(RevitFiles.Any(t => t.FileUid == uid)) return SetNewGuid();
+            if(revitFiles.Any(t => t.FileUid == uid)) return SetNewGuid();
             else return uid;
         }
 
         public void GetFileWeight()
         {
             long totalWeight = 0;
-            IEnumerable<SavedRevitFile> temp = RevitFiles.Where(t => t.IsSelected);
+            IEnumerable<SavedRevitFile> temp = revitFiles.Where(t => t.IsSelected);
 
             foreach (SavedRevitFile srf in temp)
             {
@@ -350,15 +358,15 @@ namespace RFACleaner
         public void FileToBean()
         {
             string beanPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            foreach(SavedRevitFile srf in RevitFiles.Where(t => t.IsSelected))
+            foreach(SavedRevitFile srf in revitFiles.Where(t => t.IsSelected))
             {
                 File.Delete(srf.FilePath);
             }
-            RevitFiles.RemoveAll(t => t.IsSelected);
+            revitFiles.RemoveAll(t => t.IsSelected);
 
             mwvm.FilesList.Clear();
 
-            foreach(SavedRevitFile srf in RevitFiles)
+            foreach(SavedRevitFile srf in revitFiles)
             {
                 srf.IsSelected = true;
                 mwvm.FilesList.Add(srf);
