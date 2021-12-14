@@ -68,7 +68,10 @@ namespace RFACleaner
 
                     if (Directory.Exists(folderPath))
                     {
-                        mwm.GetRevitFiles(folderPath);
+                        Task.Run(() => 
+                        {
+                            mwm.GetRevitFiles(folderPath);
+                        });
                     }
                 }
             }

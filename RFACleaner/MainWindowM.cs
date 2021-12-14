@@ -104,7 +104,6 @@ namespace RFACleaner
                             FileName = Path.GetFileNameWithoutExtension(file.FullName),
                             FilePath = file.FullName,
                             IsSelected = true,
-                            FileVersion = GetRevitFileVersion(file.FullName),
                             FileUid = SetNewGuid(),
                             FileWeight = file.Length
                         };
@@ -145,6 +144,8 @@ namespace RFACleaner
             GetFileWeight();
         }
 
+        /*
+         * WIP
         private string GetRevitFileVersion(string filePath)
         {
             string version = "";
@@ -205,6 +206,7 @@ namespace RFACleaner
             return version;
 
         }
+        */
 
         private bool IsSavedFile(string file)
         {
