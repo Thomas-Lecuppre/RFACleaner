@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace RFACleaner
@@ -23,7 +24,7 @@ namespace RFACleaner
 
         public SavedRevitFile()
         {
-
+            selectCommand = new CommandeRelais(Execute_Select, CanExecute_Select);
         }
 
         public string FileName { get; set; }
@@ -107,6 +108,8 @@ namespace RFACleaner
             }
         }
 
+        public bool MatchFilter { get; set; }
+
         private string GetWeightInfo(long weight)
         {
             long totalWeight = weight;
@@ -142,5 +145,30 @@ namespace RFACleaner
 
             return $"Poids : {totalWeight} {weightunit}";
         }
+
+        #region Select Command
+
+        private ICommand selectCommand;
+
+        public ICommand SelectCommand
+        {
+            get { return selectCommand; }
+            set 
+            { 
+                selectCommand = value; 
+            }
+        }
+
+        public void Execute_Select(object parameter)
+        {
+            IsSelected = !IsSelected;
+        }
+
+        public bool CanExecute_Select(object parameter)
+        {
+            return true;
+        }
+
+        #endregion
     }
 }

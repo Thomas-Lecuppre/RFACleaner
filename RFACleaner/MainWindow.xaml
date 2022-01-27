@@ -627,9 +627,8 @@
                                         VerticalContentAlignment="Stretch"
                                         HorizontalContentAlignment="Stretch"
                                         Tag="{Binding FileTag}"
-                                        Uid="{Binding FileUid}"
                                         Style="{StaticResource ButtonStyle}"
-                                        Click="Button_Click">
+                                        Click="{Binding SelectCommand}">
 
                                     <!--Image 64x64px-->
                                     <Image Stretch="Fill"

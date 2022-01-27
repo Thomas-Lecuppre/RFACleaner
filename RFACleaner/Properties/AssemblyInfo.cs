@@ -8,11 +8,11 @@ using System.Windows;
 // l'ensemble d'attributs suivant. Pour modifier les informations
 // associées à un assembly.
 [assembly: AssemblyTitle("RFACleaner")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Logiciel de nettoyage des fichiers de sauvegarde de Revit.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Thomas Lecuppre")]
 [assembly: AssemblyProduct("RFACleaner")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Thomas Lecuppre, tout droits réservés.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

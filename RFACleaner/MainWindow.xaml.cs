@@ -64,10 +64,11 @@ namespace RFACleaner
             }
         }
 
+        /*
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             mwVM.mwm.Select((sender as Button).Uid);
-        }
+        }*/
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {

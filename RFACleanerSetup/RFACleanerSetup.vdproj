@@ -58,12 +58,6 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6180A6A0194D613829EAD2ECC77590DE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -83,6 +77,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_629DB30424E6B8367AD6D3F17C890FB5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6180A6A0194D613829EAD2ECC77590DE"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -135,6 +135,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -376,7 +384,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFACleaner"
         "ProductCode" = "8:{6FAD2ED2-6C76-42F3-9B2B-F0FBE0EEFEAD}"
-        "PackageCode" = "8:{A8509729-AE3A-4E75-89B2-CC6DD73A990A}"
+        "PackageCode" = "8:{D9F46B8A-1547-4AC6-9E28-7FF94626BE7F}"
         "UpgradeCode" = "8:{174E4447-AF95-4A49-A72D-9C4C187AE5AE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -389,10 +397,10 @@
         "ARPHELPLINK" = "8:http://app.thomas-lecuppre.fr/rfa_cleaner"
         "Title" = "8:RFACleaner"
         "Subject" = "8:Nettoyage des fichiers de sauvegarde des fichiers Revit."
-        "ARPCONTACT" = "8:AbracadaBim"
+        "ARPCONTACT" = "8:Thomas Lecuppre"
         "Keywords" = "8:RFA Cleaner RFACleaner"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:https://thomas-lecuppre.fr"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
