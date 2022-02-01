@@ -669,7 +669,7 @@
                     Style="{StaticResource ButtonStyle}"
                     Content="{Binding ActionButtonText}"
                     Command="{Binding MainAction}"
-                    ToolTip="Une fois que vous avez cliqué sur ce bouton, il n'existe aucun moyen de recupérer vos fichiers. Pensez-y a deux fois."/>
+                    ToolTip="Une fois que vous avez cliqué sur ce bouton, il n'existe aucun moyen de recupérer vos fichiers. Pensez-y à deux fois."/>
 
         </Grid>
     </Border>
