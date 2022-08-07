@@ -73,10 +73,7 @@ namespace RFACleaner
 
                     if (Directory.Exists(folderPath))
                     {
-                        Task.Run(() => 
-                        {
-                            mwm.GetRevitFiles(folderPath);
-                        });
+                        mwm.GetRevitFiles(folderPath);
                     }
                 }
             }
@@ -255,7 +252,7 @@ namespace RFACleaner
 
         public void Execute_SelectAll(object parameter)
         {
-            mwm.SelectAllFiles();
+            mwm.TreatAllFiles(true);
         }
 
         public bool CanExecute_SelectAll(object parameter)
@@ -283,7 +280,7 @@ namespace RFACleaner
 
         public void Execute_UnSelectAll(object parameter)
         {
-            mwm.UnSelectAllFiles();
+            mwm.TreatAllFiles(false);
         }
 
         public bool CanExecute_UnSelectAll(object parameter)

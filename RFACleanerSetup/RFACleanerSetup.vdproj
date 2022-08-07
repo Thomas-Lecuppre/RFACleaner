@@ -15,18 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1C802E512EF042898EDD6932984C0B49"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_3086A3DE51B31FC9C47A3F2C3652535F"
-        "OwnerKey" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_6180A6A0194D613829EAD2ECC77590DE"
         "OwnerKey" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
         "MsmSig" = "8:_UNDEFINED"
@@ -39,14 +27,26 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_C9734555282308F0C030659CC21E148B"
+        "MsmKey" = "8:_8D26B61C5B649B22C903DF2F421FD90F"
         "OwnerKey" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C9734555282308F0C030659CC21E148B"
-        "OwnerKey" = "8:_3086A3DE51B31FC9C47A3F2C3652535F"
+        "MsmKey" = "8:_9258C45514AD40198A02B76320DAE169"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C6978FFE75437CF6F28CD67104BE673F"
+        "OwnerKey" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_C6978FFE75437CF6F28CD67104BE673F"
+        "OwnerKey" = "8:_8D26B61C5B649B22C903DF2F421FD90F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -64,13 +64,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3086A3DE51B31FC9C47A3F2C3652535F"
+        "OwnerKey" = "8:_8D26B61C5B649B22C903DF2F421FD90F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C9734555282308F0C030659CC21E148B"
+        "OwnerKey" = "8:_C6978FFE75437CF6F28CD67104BE673F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,6 +142,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -172,57 +180,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1C802E512EF042898EDD6932984C0B49"
-            {
-            "SourcePath" = "8:A:\\05_BDD_IMAGES\\App RFA Cleaner\\RFA_Cleaner_256px.ico"
-            "TargetName" = "8:RFA_Cleaner_256px.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_27A038A4C48942B1A8D3FD88B15C94C5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3086A3DE51B31FC9C47A3F2C3652535F"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MaterialDesignThemes.Wpf, Version=4.3.0.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_3086A3DE51B31FC9C47A3F2C3652535F"
-                    {
-                    "Name" = "8:MaterialDesignThemes.Wpf.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:MaterialDesignThemes.Wpf.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_27A038A4C48942B1A8D3FD88B15C94C5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6180A6A0194D613829EAD2ECC77590DE"
             {
             "AssemblyRegister" = "3:1"
@@ -285,14 +242,65 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C9734555282308F0C030659CC21E148B"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8D26B61C5B649B22C903DF2F421FD90F"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:MaterialDesignColors, Version=2.0.4.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:MaterialDesignThemes.Wpf, Version=4.5.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_C9734555282308F0C030659CC21E148B"
+                    "_8D26B61C5B649B22C903DF2F421FD90F"
+                    {
+                    "Name" = "8:MaterialDesignThemes.Wpf.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:MaterialDesignThemes.Wpf.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_27A038A4C48942B1A8D3FD88B15C94C5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9258C45514AD40198A02B76320DAE169"
+            {
+            "SourcePath" = "8:A:\\05_BDD_IMAGES\\App RFA Cleaner\\RFA_Cleaner_32px.ico"
+            "TargetName" = "8:RFA_Cleaner_32px.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_27A038A4C48942B1A8D3FD88B15C94C5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:TRUE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C6978FFE75437CF6F28CD67104BE673F"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:MaterialDesignColors, Version=2.0.6.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C6978FFE75437CF6F28CD67104BE673F"
                     {
                     "Name" = "8:MaterialDesignColors.dll"
                     "Attributes" = "3:512"
@@ -383,16 +391,16 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFACleaner"
-        "ProductCode" = "8:{6FAD2ED2-6C76-42F3-9B2B-F0FBE0EEFEAD}"
-        "PackageCode" = "8:{D9F46B8A-1547-4AC6-9E28-7FF94626BE7F}"
+        "ProductCode" = "8:{C29F1CF3-183B-4271-A8A2-C6D192539212}"
+        "PackageCode" = "8:{F447CF07-4044-42FF-9831-6A781CD54C5E}"
         "UpgradeCode" = "8:{174E4447-AF95-4A49-A72D-9C4C187AE5AE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.0.0"
-        "Manufacturer" = "8:AbracadaBim"
+        "ProductVersion" = "8:2.1.0"
+        "Manufacturer" = "8:Thomas Lecuppre"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://app.thomas-lecuppre.fr/rfa_cleaner"
         "Title" = "8:RFACleaner"
@@ -515,7 +523,7 @@
             "Target" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
             "Folder" = "8:_DC6CB581CE7644CDA9ED0125C1C722C6"
             "WorkingFolder" = "8:_27A038A4C48942B1A8D3FD88B15C94C5"
-            "Icon" = "8:_1C802E512EF042898EDD6932984C0B49"
+            "Icon" = "8:_9258C45514AD40198A02B76320DAE169"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5CB7BD58494745EA9D7535A6AD2AEC05"
@@ -529,7 +537,7 @@
             "Target" = "8:_CE5FC8CAAA244312AD3C5A4DF45349DB"
             "Folder" = "8:_BFA870FAE4A7415DA12967DDEF3F628C"
             "WorkingFolder" = "8:_27A038A4C48942B1A8D3FD88B15C94C5"
-            "Icon" = "8:_1C802E512EF042898EDD6932984C0B49"
+            "Icon" = "8:_9258C45514AD40198A02B76320DAE169"
             "Feature" = "8:"
             }
         }

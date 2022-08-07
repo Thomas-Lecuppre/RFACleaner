@@ -9,11 +9,20 @@ using System.Windows.Media;
 
 namespace RFACleaner
 {
+    /// <summary>
+    /// Class représentant un fichier de sauvegarde Revit au format RFA, RFT, RVT, RTE
+    /// </summary>
     public class SavedRevitFile : INotifyPropertyChanged
     {
-
+        /// <summary>
+        /// Evenement de changement de valeur de propriété.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Change la valeur de la propiété dans la vue une fois appelé.
+        /// </summary>
+        /// <param name="propertyName">Nom de la propriété</param>
         protected virtual void OnPropertyChange(string propertyName)
         {
             if (PropertyChanged != null)
@@ -22,15 +31,31 @@ namespace RFACleaner
             }
         }
 
-        public SavedRevitFile()
+        MainWindowM mainM;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SavedRevitFile(MainWindowM mwm)
         {
+            mainM = mwm;
             selectCommand = new CommandeRelais(Execute_Select, CanExecute_Select);
         }
 
+        /// <summary>
+        /// Nom du fichier
+        /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// Chemin du fichier
+        /// </summary>
         public string FilePath { get; set; }
 
         private bool isSelected;
+        /// <summary>
+        /// Etat de selection du fichier.
+        /// </summary>
         public bool IsSelected
         {
             get 
@@ -52,6 +77,9 @@ namespace RFACleaner
         }
 
         private string fileTag;
+        /// <summary>
+        /// Définie m'état du bouton du fichier de sauvegarde. Selected / NotSelected
+        /// </summary>
         public string FileTag
         {
             get { return fileTag; }
@@ -63,6 +91,9 @@ namespace RFACleaner
         }
 
         private ImageSource icon;
+        /// <summary>
+        /// Icone du fichier en fonction de son type.
+        /// </summary>
         public ImageSource Icon
         {
             get { return icon; }
@@ -73,21 +104,10 @@ namespace RFACleaner
             }
         }
 
-        private string fileUid;
-        public string FileUid
-        {
-            get 
-            { 
-                return fileUid; 
-            }
-            set 
-            { 
-                fileUid = value;
-                OnPropertyChange("FileUid");
-            }
-        }
-
         private long fileWeight;
+        /// <summary>
+        /// Poids du fichier.
+        /// </summary>
         public long FileWeight
         {
             get 
@@ -96,10 +116,14 @@ namespace RFACleaner
             }
             set 
             { 
-                fileWeight = value; 
+                fileWeight = value;
+                OnPropertyChange("Weight");
             }
         }
 
+        /// <summary>
+        /// Poids du fichier lisible pour un utilisateur.
+        /// </summary>
         public string Weight
         {
             get
@@ -108,6 +132,9 @@ namespace RFACleaner
             }
         }
 
+        /// <summary>
+        /// Le fichier est-il visé par le filtre ?
+        /// </summary>
         public bool MatchFilter { get; set; }
 
         private string GetWeightInfo(long weight)
@@ -150,6 +177,9 @@ namespace RFACleaner
 
         private ICommand selectCommand;
 
+        /// <summary>
+        /// Commande derrière le clique du bouton.
+        /// </summary>
         public ICommand SelectCommand
         {
             get { return selectCommand; }
@@ -159,11 +189,21 @@ namespace RFACleaner
             }
         }
 
+        /// <summary>
+        /// Execute la fonction.
+        /// </summary>
+        /// <param name="parameter">Objet</param>
         public void Execute_Select(object parameter)
         {
             IsSelected = !IsSelected;
+            mainM.GetFileWeight();
         }
 
+        /// <summary>
+        /// Peut executer la fonction ?
+        /// </summary>
+        /// <param name="parameter">Objet</param>
+        /// <returns></returns>
         public bool CanExecute_Select(object parameter)
         {
             return true;

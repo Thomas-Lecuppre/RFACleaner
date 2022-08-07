@@ -628,7 +628,7 @@
                                         HorizontalContentAlignment="Stretch"
                                         Tag="{Binding FileTag}"
                                         Style="{StaticResource ButtonStyle}"
-                                        Click="{Binding SelectCommand}">
+                                        Command="{Binding SelectCommand}">
 
                                     <!--Image 64x64px-->
                                     <Image Stretch="Fill"
