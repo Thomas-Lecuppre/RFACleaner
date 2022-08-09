@@ -12,7 +12,7 @@ namespace RFACleaner
     /// <summary>
     /// Class représentant un fichier de sauvegarde Revit au format RFA, RFT, RVT, RTE
     /// </summary>
-    public class SavedRevitFile : INotifyPropertyChanged
+    internal class SavedRevitFile : INotifyPropertyChanged
     {
         /// <summary>
         /// Evenement de changement de valeur de propriété.
@@ -31,14 +31,14 @@ namespace RFACleaner
             }
         }
 
-        MainWindowM mainM;
+        MainWindowModel mainModel;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public SavedRevitFile(MainWindowM mwm)
+        public SavedRevitFile(MainWindowModel mwm)
         {
-            mainM = mwm;
+            mainModel = mwm;
             selectCommand = new CommandeRelais(Execute_Select, CanExecute_Select);
         }
 
@@ -196,7 +196,7 @@ namespace RFACleaner
         public void Execute_Select(object parameter)
         {
             IsSelected = !IsSelected;
-            mainM.GetFileWeight();
+            mainModel.GetFileWeight();
         }
 
         /// <summary>

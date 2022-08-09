@@ -22,13 +22,16 @@ namespace RFACleaner
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowVM mwVM;
+        MainWindowViewModel viewModel;
 
+        /// <summary>
+        /// Constructeur de class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
-            mwVM = new MainWindowVM();
-            this.DataContext = mwVM;
+            viewModel = new MainWindowViewModel();
+            this.DataContext = viewModel;
         }
 
         private void ShutDownButton_Click(object sender, RoutedEventArgs e)

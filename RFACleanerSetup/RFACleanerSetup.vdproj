@@ -144,10 +144,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.8"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    "Name" = "8:Microsoft .NET Framework 4.8 (x86 et x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.8"
                     }
                 }
             }
@@ -391,15 +391,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RFACleaner"
-        "ProductCode" = "8:{C29F1CF3-183B-4271-A8A2-C6D192539212}"
-        "PackageCode" = "8:{F447CF07-4044-42FF-9831-6A781CD54C5E}"
+        "ProductCode" = "8:{F5B52197-6E0A-46D0-B92C-4D046C276779}"
+        "PackageCode" = "8:{6DCC1C29-0D2E-4D3F-BA2E-69486AB9DF51}"
         "UpgradeCode" = "8:{174E4447-AF95-4A49-A72D-9C4C187AE5AE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.1.0"
+        "ProductVersion" = "8:2.1.1"
         "Manufacturer" = "8:Thomas Lecuppre"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://app.thomas-lecuppre.fr/rfa_cleaner"

@@ -22,9 +22,9 @@ namespace RFACleaner
     /// This is where all data are processed, managed, edited, imported, exported.
     /// Part of MVVM pattern.
     /// </summary>
-    public class MainWindowM
+    internal class MainWindowModel
     {
-        MainWindowVM mwvm;
+        MainWindowViewModel viewModel;
 
         List<ImageSource> icons = new List<ImageSource>();
 
@@ -39,9 +39,9 @@ namespace RFACleaner
         /// Constructor
         /// </summary>
         /// <param name="mvm">ViewModel for this Model</param>
-        public MainWindowM(MainWindowVM mvm)
+        public MainWindowModel(MainWindowViewModel mvm)
         {
-            mwvm = mvm;
+            viewModel = mvm;
             revitFiles = new List<SavedRevitFile>();
             icons.Add(ResxBitmap(Properties.Resources.RFA_256px));
             icons.Add(ResxBitmap(Properties.Resources.RVT_256px));
@@ -120,7 +120,7 @@ namespace RFACleaner
         /// <param name="folderPath">Folder path to look into.</param>
         public async void GetRevitFiles(string folderPath)
         {
-            mwvm.ActionButtonText = "   Analyse des fichiers   ";
+            viewModel.ActionButtonText = "   Analyse des fichiers   ";
 
             GenerateToken();
             tasks = new List<Task>();
@@ -153,13 +153,19 @@ namespace RFACleaner
             await Task.WhenAll(tasks.ToArray());
 
             SetFileIcon();
-            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
+            Filter(viewModel.SearchText, viewModel.CaseSensitiveTag == "Selected");
+
+            UpdateUI();
         }
 
-        /*
-         * WIP
+        /// <summary>
+        /// Fonction qui permet de traverser le fichier de Revit et de recupérer le build de la version Revit utilisé pour créer le fichier.
+        /// </summary>
+        /// <param name="filePath">Chemin du fichier.</param>
+        /// <returns>La version de Revit utilisée pour créer le fichier.</returns>
         private string GetRevitFileVersion(string filePath)
         {
+
             string version = "";
 
             List<Encoding> e = new List<Encoding>
@@ -218,7 +224,7 @@ namespace RFACleaner
             return version;
 
         }
-        */
+        
 
         private bool IsSavedFile(string file)
         {
@@ -261,7 +267,7 @@ namespace RFACleaner
                 }
             });
 
-            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
+            Filter(viewModel.SearchText, viewModel.CaseSensitiveTag == "Selected");
         }
 
         /// <summary>
@@ -278,7 +284,7 @@ namespace RFACleaner
                 }
             });
 
-            Filter(mwvm.SearchText, mwvm.CaseSensitiveTag == "Selected");
+            Filter(viewModel.SearchText, viewModel.CaseSensitiveTag == "Selected");
         }
 
         /// <summary>
@@ -416,7 +422,7 @@ namespace RFACleaner
 
             nbfichiers = countFiles > 1 ? $"{countFiles} fichiers" : $"{countFiles} fichier";
 
-            mwvm.ActionButtonText = $"   Purger {nbfichiers} pour {totalWeight} {weightunit}   ";
+            viewModel.ActionButtonText = $"   Purger {nbfichiers} pour {totalWeight} {weightunit}   ";
         }
 
         /// <summary>
@@ -486,15 +492,15 @@ namespace RFACleaner
                         $"{DateTime.Now}_log.txt");
             }
 
-            mwvm.FilesList.Clear();
+            viewModel.FilesList.Clear();
 
             foreach(SavedRevitFile srf in revitFiles)
             {
                 srf.IsSelected = true;
-                mwvm.FilesList.Add(srf);
+                viewModel.FilesList.Add(srf);
             }
 
-            mwvm.ActionButtonText = "   Suppression effectuée   ";
+            viewModel.ActionButtonText = "   Suppression effectuée   ";
         }
 
         /// <summary>
@@ -522,10 +528,10 @@ namespace RFACleaner
         /// </summary>
         public void UpdateUI()
         {
-            mwvm.FilesList.Clear ();
+            viewModel.FilesList.Clear ();
             foreach(SavedRevitFile srf in revitFiles)
             {
-                if(srf.MatchFilter) mwvm.FilesList.Add(srf);
+                if(srf.MatchFilter) viewModel.FilesList.Add(srf);
             }
         }
 

@@ -11,9 +11,9 @@ using System.Windows.Input;
 
 namespace RFACleaner
 {
-    public class MainWindowVM : INotifyPropertyChanged
+    internal class MainWindowViewModel : INotifyPropertyChanged
     {
-        public MainWindowM mwm;
+        public MainWindowModel model;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,7 +25,10 @@ namespace RFACleaner
             }
         }
 
-        public MainWindowVM()
+        /// <summary>
+        /// Constructeur de class
+        /// </summary>
+        public MainWindowViewModel()
         {
             CaseSensitiveTag = "NotSelected";
 
@@ -38,12 +41,16 @@ namespace RFACleaner
             invertSelection = new CommandeRelais(Execute_InvertSelection, CanExecute_InvertSelection);
             caseSensitive = new CommandeRelais(Execute_CaseSensitive, CanExecute_CaseSensitive);
 
-            mwm = new MainWindowM(this);
+            model = new MainWindowModel(this);
 
-            WindowTitle = mwm.Version();
+            WindowTitle = model.Version();
         }
 
         private string windowTitle;
+
+        /// <summary>
+        /// Titre de la fenêtre.
+        /// </summary>
         public string WindowTitle
         {
             get 
@@ -58,6 +65,10 @@ namespace RFACleaner
         }
 
         private string folderPath;
+
+        /// <summary>
+        /// Chemin de recherche actuel.
+        /// </summary>
         public string FolderPath
         {
             get 
@@ -73,13 +84,17 @@ namespace RFACleaner
 
                     if (Directory.Exists(folderPath))
                     {
-                        mwm.GetRevitFiles(folderPath);
+                        model.GetRevitFiles(folderPath);
                     }
                 }
             }
         }
 
         private string searchText;
+
+        /// <summary>
+        /// Filtre de recherche.
+        /// </summary>
         public string SearchText
         {
             get 
@@ -91,13 +106,17 @@ namespace RFACleaner
                 if(value != searchText)
                 {
                     searchText = value;
-                    mwm.Filter(searchText, CaseSensitiveTag == "Selected");
+                    model.Filter(searchText, CaseSensitiveTag == "Selected");
                     OnPropertyChange("SearchText");
                 }
             }
         }
 
         private ObservableCollection<SavedRevitFile> filesList;
+
+        /// <summary>
+        /// Liste des fichiers de sauvegarde Revit affichés dans l'interface.
+        /// </summary>
         public ObservableCollection<SavedRevitFile> FilesList
         {
             get 
@@ -112,6 +131,10 @@ namespace RFACleaner
         }
 
         private string actionButtonText;
+
+        /// <summary>
+        /// Contenu du bouton pour lancer le nettoyage.
+        /// </summary>
         public string ActionButtonText
         {
             get 
@@ -134,6 +157,10 @@ namespace RFACleaner
         }
 
         private bool actionButtonEnable;
+
+        /// <summary>
+        /// Défini si le bouton est actif pour l'utilisateur.
+        /// </summary>
         public bool ActionButtonEnable
         {
             get { return actionButtonEnable; }
@@ -145,6 +172,10 @@ namespace RFACleaner
         }
 
         private string caseSensitiveTag;
+
+        /// <summary>
+        /// Defini le tag du bouton CaseSensitive (permet de changer son apparence) "Selected" ou "".
+        /// </summary>
         public string CaseSensitiveTag
         {
             get { return caseSensitiveTag; }
@@ -164,6 +195,10 @@ namespace RFACleaner
         }
 
         private string caseSensitiveToolTip;
+
+        /// <summary>
+        /// Information à l'utilisateur de la manière dont foncitonne le bouton CaseSensitive.
+        /// </summary>
         public string CaseSensitiveToolTip
         {
             get { return caseSensitiveToolTip; }
@@ -179,6 +214,9 @@ namespace RFACleaner
 
         private ICommand browseFolder;
 
+        /// <summary>
+        /// Iterface de commande permettant de lancer la fonction de recherche de dossier.
+        /// </summary>
         public ICommand BrowseFolder
         {
             get 
@@ -191,15 +229,25 @@ namespace RFACleaner
             }
         }
 
+        /// <summary>
+        /// Commande de recherche de dossier.
+        /// </summary>
+        /// <param name="parameter">Paramètres.</param>
         public void Execute_BrowseFolder(object parameter)
         {
-            string result = mwm.Browse();
+            string result = model.Browse();
             if(FolderPath != "" && result != "")
             {
                 FolderPath = result;
+                model.UpdateUI();
             }
         }
 
+        /// <summary>
+        /// Vérifie si le bouton de recherche de dossier est actif.
+        /// </summary>
+        /// <param name="parameter">Paramètres.</param>
+        /// <returns>Vrai.</returns>
         public bool CanExecute_BrowseFolder(object parameter)
         {
             return true;
@@ -210,6 +258,10 @@ namespace RFACleaner
         #region Command Main Action
 
         private ICommand mainAction;
+
+        /// <summary>
+        /// Interface de commande qui anime l'action principale du programme.
+        /// </summary>
         public ICommand MainAction
         {
             get
@@ -222,11 +274,21 @@ namespace RFACleaner
             }
         }
 
+
+        /// <summary>
+        /// Action principale du programme.
+        /// </summary>
+        /// <param name="parameter">Paramètres.</param>
         public void Execute_MainAction(object parameter)
         {
-            mwm.FileToBean();
+            model.FileToBean();
         }
 
+        /// <summary>
+        /// Vérifie si le bouton d'action principal est actif.
+        /// </summary>
+        /// <param name="parameter">Paramètres.</param>
+        /// <returns>Vrai.</returns>
         public bool CanExecute_MainAction(object parameter)
         {
             return true;
@@ -238,6 +300,9 @@ namespace RFACleaner
 
         private ICommand selectAll;
 
+        /// <summary>
+        /// Interface de commande pour selectionner tout les fichiers de sauvergarde Revit que peu contenir le programme.
+        /// </summary>
         public ICommand SelectAll
         {
             get
@@ -252,7 +317,7 @@ namespace RFACleaner
 
         public void Execute_SelectAll(object parameter)
         {
-            mwm.TreatAllFiles(true);
+            model.TreatAllFiles(true);
         }
 
         public bool CanExecute_SelectAll(object parameter)
@@ -280,7 +345,7 @@ namespace RFACleaner
 
         public void Execute_UnSelectAll(object parameter)
         {
-            mwm.TreatAllFiles(false);
+            model.TreatAllFiles(false);
         }
 
         public bool CanExecute_UnSelectAll(object parameter)
@@ -308,7 +373,7 @@ namespace RFACleaner
 
         public void Execute_InvertSelection(object parameter)
         {
-            mwm.InvertFilesSelection();
+            model.InvertFilesSelection();
         }
 
         public bool CanExecute_InvertSelection(object parameter)

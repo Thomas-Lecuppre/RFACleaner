@@ -115,8 +115,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CommandeRelais.cs" />
-    <Compile Include="MainWindowM.cs" />
-    <Compile Include="MainWindowVM.cs" />
+    <Compile Include="MainWindowModel.cs" />
+    <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="SavedRevitFile.cs" />
     <Page Include="ABIM_Dictionary.xaml">
       <SubType>Designer</SubType>

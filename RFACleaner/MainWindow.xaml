@@ -62,7 +62,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10"
+                        <Border CornerRadius="5"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="GhostWhite"
                                 BorderThickness="2">
@@ -82,7 +82,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10"
+                                <Border CornerRadius="5"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="Green"
                                         BorderThickness="2">
@@ -102,7 +102,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10"
+                                <Border CornerRadius="5"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="Red"
                                         BorderThickness="2">
@@ -122,7 +122,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10"
+                                <Border CornerRadius="5"
                                         Background="#FF5D5D5D"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="2">
@@ -142,7 +142,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10"
+                                <Border CornerRadius="5"
                                         Background="#FF2D2D30"
                                         BorderBrush="#FF2D2D30"
                                         BorderThickness="2">
@@ -167,7 +167,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10"
+                        <Border CornerRadius="5"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="GhostWhite"
                                 BorderThickness="2">
@@ -187,7 +187,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10"
+                                <Border CornerRadius="5"
                                         Background="#FF5D5D5D"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="2">
@@ -212,7 +212,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="10"
+                        <Border CornerRadius="5"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="GhostWhite"
                                 BorderThickness="2">
@@ -232,7 +232,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border CornerRadius="10"
+                                <Border CornerRadius="5"
                                         Background="#FFB62A2A"
                                         BorderBrush="{StaticResource BB_Borderbrush}"
                                         BorderThickness="2">
@@ -258,7 +258,7 @@
                         <Border Background="Transparent" 
                                 BorderBrush="GhostWhite"
                                 BorderThickness="2" 
-                                CornerRadius="10">
+                                CornerRadius="5">
                             <ScrollViewer x:Name="PART_ContentHost"/>
                         </Border>
                     </ControlTemplate>
@@ -425,7 +425,7 @@
 
     <Border BorderThickness="2"
             BorderBrush="GhostWhite"
-            CornerRadius="15,15,0,15"
+            CornerRadius="5,5,0,5"
             Background="#FF2D2D30"
             MouseDown="Window_MouseDown">
 
