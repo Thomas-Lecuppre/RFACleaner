@@ -46,6 +46,29 @@ namespace RFACleaner
             WindowTitle = model.Version();
         }
 
+        public MainWindowViewModel(string folderPath)
+        {
+            CaseSensitiveTag = "NotSelected";
+
+            filesList = new ObservableCollection<SavedRevitFile>();
+
+            browseFolder = new CommandeRelais(Execute_BrowseFolder, CanExecute_BrowseFolder);
+            mainAction = new CommandeRelais(Execute_MainAction, CanExecute_MainAction);
+            selectAll = new CommandeRelais(Execute_SelectAll, CanExecute_SelectAll);
+            unselectAll = new CommandeRelais(Execute_UnSelectAll, CanExecute_UnSelectAll);
+            invertSelection = new CommandeRelais(Execute_InvertSelection, CanExecute_InvertSelection);
+            caseSensitive = new CommandeRelais(Execute_CaseSensitive, CanExecute_CaseSensitive);
+
+            model = new MainWindowModel(this);
+
+            WindowTitle = model.Version();
+
+            if (Directory.Exists(folderPath))
+            {
+                this.SearchText = folderPath;
+            }
+        }
+
         private string windowTitle;
 
         /// <summary>

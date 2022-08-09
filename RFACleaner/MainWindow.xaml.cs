@@ -34,6 +34,17 @@ namespace RFACleaner
             this.DataContext = viewModel;
         }
 
+        /// <summary>
+        /// Constructeur de class prenant en charge un argument.
+        /// </summary>
+        /// <param name="folderPath">Chemin de recherche.</param>
+        public MainWindow(string folderPath)
+        {
+            InitializeComponent();
+            viewModel = new MainWindowViewModel();
+            this.DataContext = viewModel;
+        }
+
         private void ShutDownButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
