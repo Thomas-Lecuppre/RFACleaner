@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace RFACleaner
 {
-    public class CommandeRelais : ICommand
+    internal class CommandeRelais : ICommand
     {
         public delegate void ICommandOnExecute(object parameter);
         public delegate bool ICommandOnCanExecute(Object parameter);

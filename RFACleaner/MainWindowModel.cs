@@ -125,9 +125,8 @@ namespace RFACleaner
             GenerateToken();
             tasks = new List<Task>();
 
-
             DirectoryInfo dir = new DirectoryInfo(folderPath);
-            foreach (FileInfo fi in dir.GetFiles("*", SearchOption.TopDirectoryOnly))
+            foreach (FileInfo fi in dir.GetFiles("*", SearchOption.AllDirectories))
             {
                 if (IsRevitFile(fi.FullName) && IsSavedFile(fi.FullName))
                 {
@@ -146,16 +145,18 @@ namespace RFACleaner
             }
             foreach (DirectoryInfo d in dir.GetDirectories())
             {
+
+                
                 Task task = Task.Run(() => GetFiles(d.FullName, token), token);
                 tasks.Add(task);
+                
             }
-
+            
             await Task.WhenAll(tasks.ToArray());
 
             SetFileIcon();
             Filter(viewModel.SearchText, viewModel.CaseSensitiveTag == "Selected");
 
-            UpdateUI();
         }
 
         /// <summary>
@@ -370,26 +371,30 @@ namespace RFACleaner
 
             }
 
-            GetFileWeight();
             UpdateUI();
+            GetFileWeight();
         }
 
         /// <summary>
         /// Separed Thread
         /// Get total weight of all selected files.
         /// </summary>
-        public void GetFileWeight()
+        public async void GetFileWeight()
         {
             long totalWeight = 0;
             int countFiles = 0;
             int u = 0;
             string weightunit = "o";
 
-            foreach (SavedRevitFile srf in revitFiles.Where(t => t.IsSelected))
+            // Prevent UI blocking
+            await Task.Run(() =>
             {
-                totalWeight += srf.FileWeight;
-                countFiles++;
-            }
+                foreach (SavedRevitFile srf in revitFiles.Where(t => t.IsSelected))
+                {
+                    totalWeight += srf.FileWeight;
+                    countFiles++;
+                }
+            });
 
             while (totalWeight > 1000 && u <= 5)
             {
@@ -569,6 +574,7 @@ namespace RFACleaner
                             FileName = Path.GetFileNameWithoutExtension(fi.FullName),
                             FilePath = fi.FullName,
                             IsSelected = true,
+                            MatchFilter = true,
                             FileWeight = fi.Length
                         };
 
